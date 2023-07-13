@@ -20,9 +20,11 @@ public class Measurement {
     @Column
     private double frequency;
     @Column
-    private double ia;
+    private double nP;
     @Column
-    private double ib;
+    private double gP;
     @Column
-    private double ic;
+    private double nQ;
+    @Column
+    private double gQ;
 }

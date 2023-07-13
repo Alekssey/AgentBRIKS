@@ -27,8 +27,21 @@ public class SpamMeasurement extends TickerBehaviour {
         log.debug("{} spam measurement: f={}, nP={}, nQ={}, gP={}, gQ={}", myAgent.getLocalName(),
                 cfg.getF(), cfg.getNecessaryP(), cfg.getNecessaryQ(), cfg.getGeneratedP(), cfg.getGeneratedQ());
 
-        service.saveMeasurementInDB(new Measurement(measurementIndex, (System.currentTimeMillis() - startTime) / 1000L, frequency, 0, 0, 0));
+        service.saveMeasurementInDB(new Measurement(measurementIndex,
+                (System.currentTimeMillis() - startTime) / 1000L,
+                frequency,
+                cfg.getNecessaryP(),
+                cfg.getGeneratedP(),
+                cfg.getNecessaryQ(),
+                cfg.getGeneratedQ()));
         measurementIndex++;
 
+        if (measurementIndex == 10) {
+            cfg.setNecessaryP(150);
+        }
+
+        if (measurementIndex == 40) {
+            cfg.setNecessaryP(100);
+        }
     }
 }

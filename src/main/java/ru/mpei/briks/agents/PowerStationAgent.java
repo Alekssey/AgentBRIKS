@@ -3,8 +3,8 @@ package ru.mpei.briks.agents;
 import jade.core.Agent;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import ru.mpei.briks.behaviours.powerStation.GetAndAnalyzeMeasurements;
-import ru.mpei.briks.behaviours.powerStation.TestSendBehaviour;
+import ru.mpei.briks.behaviours.powerStation.AnalyzeMeasurements;
+import ru.mpei.briks.behaviours.powerStation.UpdateMeasurementData;
 import ru.mpei.briks.extention.configirationClasses.StationConfiguration;
 import ru.mpei.briks.extention.helpers.DFHelper;
 
@@ -32,7 +32,8 @@ public class PowerStationAgent extends Agent {
             e.printStackTrace();
         }
 
-        this.addBehaviour(new GetAndAnalyzeMeasurements(this, 2000));
+        this.addBehaviour(new UpdateMeasurementData(this, 500));
+        this.addBehaviour(new AnalyzeMeasurements(this, 1000));
 //        this.addBehaviour(new TestSendBehaviour(this, 2000));
 
     }

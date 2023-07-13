@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cfg>
     <maxP>150</maxP>
-    <currentGeneratingP>90</currentGeneratingP>
+    <currentGeneratingP>100</currentGeneratingP>
     <maxQ>100</maxQ>
     <currentGeneratingQ>50</currentGeneratingQ>
 </cfg>

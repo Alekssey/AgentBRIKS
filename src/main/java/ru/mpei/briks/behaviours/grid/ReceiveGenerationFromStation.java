@@ -26,6 +26,7 @@ public class ReceiveGenerationFromStation extends Behaviour {
     public void action() {
         ACLMessage msg = myAgent.receive(mt);
         if (msg != null) {
+            log.info("Grid get power: {} from station", msg.getContent());
             AgentToGridDto dto = JacksonHelper.fromJackson(msg.getContent(), AgentToGridDto.class);
             ((GridAgent) myAgent).cfg.setGeneratedP(dto.getActivePower());
         } else {

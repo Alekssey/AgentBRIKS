@@ -5,50 +5,41 @@ import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
 import lombok.extern.slf4j.Slf4j;
-import ru.mpei.briks.agents.GridAgent;
 import ru.mpei.briks.agents.PowerStationAgent;
 import ru.mpei.briks.appServiceLayer.ServiceInterface;
 import ru.mpei.briks.extention.ApplicationContextHolder;
+import ru.mpei.briks.extention.configirationClasses.StationConfiguration;
 import ru.mpei.briks.extention.dto.AgentToGridDto;
 import ru.mpei.briks.extention.dto.Measurement;
 import ru.mpei.briks.extention.helpers.DFHelper;
 import ru.mpei.briks.extention.helpers.JacksonHelper;
 
 @Slf4j
-public class GetAndAnalyzeMeasurements extends TickerBehaviour {
-
+public class UpdateMeasurementData extends TickerBehaviour {
     private ServiceInterface service = ApplicationContextHolder.getContext().getBean(ServiceInterface.class);
-    private GridAgent grid = null;
-    private DFHelper df = new DFHelper();
+    private StationConfiguration cfg = ((PowerStationAgent) myAgent).getCfg();
 
-    public GetAndAnalyzeMeasurements(Agent a, long period) {
+
+    public UpdateMeasurementData(Agent a, long period) {
         super(a, period);
     }
 
     @Override
     protected void onTick() {
         Measurement m = service.getLastMeasurement();
-        log.info("{} get and analyze measurements : {}", myAgent.getLocalName(), m);
-
-//        if (this.grid != null) {
-//            log.info("GRID IS NULL");
-//            sendMessageToGrid();
-//        } else {
-//            service.getAgentFromContext("grid");
-//            log.info("SEND MESSAGE");
-//        }
+        log.info(JacksonHelper.toJackson(m));
+        if (m != null) {
+            cfg.setF(m.getFrequency());
+        }
 
         sendMessageToGrid();
-
     }
 
     private void sendMessageToGrid() {
-        AID gridAid = DFHelper.findAgents(myAgent, "grid").get(0);
-        double generatingP = ((PowerStationAgent) myAgent).getCfg().getCurrentGeneratingP();
         ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-        msg.setContent(JacksonHelper.toJackson(new AgentToGridDto(generatingP)));
+        msg.setContent(JacksonHelper.toJackson(new AgentToGridDto(cfg.getCurrentGeneratingP())));
         msg.setProtocol("info about generation");
-        msg.addReceiver(gridAid);
+        msg.addReceiver(DFHelper.findAgents(myAgent, "grid").get(0));
         myAgent.send(msg);
     }
 }

@@ -31,7 +31,7 @@ public class GridAgent extends Agent {
             e.printStackTrace();
         }
 
-        this.addBehaviour(new SpamMeasurement(this, 2000, this.cfg));
+        this.addBehaviour(new SpamMeasurement(this, 1000, this.cfg));
         this.addBehaviour(new ReceiveGenerationFromStation(this));
 
 //        this.addBehaviour(new TestReceiveBehaviour(this));
