@@ -7,15 +7,17 @@ import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.mpei.briks.extention.*;
+import org.springframework.context.annotation.Scope;
+import ru.mpei.briks.extention.agentDescription.AgentDescription;
+import ru.mpei.briks.extention.agentDescription.AgentDescriptionContainer;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
-import java.util.List;
 
 @Configuration("agentConfiguration")
 @Slf4j
@@ -38,21 +40,12 @@ public class AgentsConfigurationImpl implements AgentConfigurationInterface {
         return adContainer;
     }
 
-/** Самая актуальная версия*/
 //    @Scope("prototype")
-//    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Override
     @Bean("agentCreator")
-    public AgentController createAgent(AgentDescriptionContainer descriptionContainer, AgentContainer mainContainer) {
-        if (mainContainer == null) startJadeMainContainer();
-        List<AgentDescription> descriptionsList = descriptionContainer.getAgentDescriptionList();
-        int methodInternalIndex = this.index;
-        if (this.index < descriptionsList.size() - 1) {
-            this.index ++;
-            createAgent(descriptionContainer, mainContainer);
-        }
+    public AgentController createAgent(AgentDescription agentDescription, AgentContainer mainContainer) {
 
-        AgentDescription agentDescription = descriptionsList.get(methodInternalIndex);
         AgentController newAgent = null;
 
         try {
@@ -67,6 +60,10 @@ public class AgentsConfigurationImpl implements AgentConfigurationInterface {
         return newAgent;
     }
 
+    @Bean("agentDescription")
+    public AgentDescription createAgentDescription() {
+        return new AgentDescription();
+    }
 
     @Bean("mainContainer")
     public AgentContainer startJadeMainContainer() {

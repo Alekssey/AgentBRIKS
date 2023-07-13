@@ -1,4 +1,4 @@
-package ru.mpei.briks.extention;
+package ru.mpei.briks.extention.agentDescription;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

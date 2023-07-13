@@ -1,11 +1,12 @@
 package ru.mpei.briks.agents;
 
 import jade.core.Agent;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import ru.mpei.briks.behaviours.grid.ReceiveGenerationFromStation;
 import ru.mpei.briks.behaviours.grid.SpamMeasurement;
-import ru.mpei.briks.extention.AgentDescriptionContainer;
-import ru.mpei.briks.extention.GridConfiguration;
+import ru.mpei.briks.behaviours.grid.TestReceiveBehaviour;
+import ru.mpei.briks.extention.configirationClasses.GridConfiguration;
+import ru.mpei.briks.extention.helpers.DFHelper;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,9 +17,10 @@ import java.io.File;
 public class GridAgent extends Agent {
 //    @Getter
     public GridConfiguration cfg = null;
+    private DFHelper df = new DFHelper();
     protected void setup() {
+        df.registration(this, "grid");
         log.info("{} was born", this.getLocalName());
-//        log.info("{}", this);
         String configFileName = this.getLocalName() + "Configuration.xml";
 
         try{
@@ -28,9 +30,11 @@ public class GridAgent extends Agent {
         } catch (JAXBException e){
             e.printStackTrace();
         }
-//        log.info("Agent instance: {}", this);
 
         this.addBehaviour(new SpamMeasurement(this, 2000, this.cfg));
+        this.addBehaviour(new ReceiveGenerationFromStation(this));
+
+//        this.addBehaviour(new TestReceiveBehaviour(this));
     }
 
 }

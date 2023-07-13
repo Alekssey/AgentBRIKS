@@ -1,4 +1,4 @@
-package ru.mpei.briks.extention;
+package ru.mpei.briks.extention.configirationClasses;
 
 import lombok.Data;
 

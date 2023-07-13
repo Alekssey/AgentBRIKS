@@ -15,6 +15,7 @@ public class ControllerImpl implements ControllerInterface{
     @Autowired
     ServiceInterface service;
 
+    @Override
     @PostMapping("/grid/set/power")
     public String changeGridPower(@RequestParam double p, @RequestParam double q){
         return service.setPowerToGrid(p, q);
@@ -22,6 +23,7 @@ public class ControllerImpl implements ControllerInterface{
 
     @GetMapping("/data/test")
     public boolean test(){
+        service.getAgentFromContext("station1");
         return true;
     }
 
