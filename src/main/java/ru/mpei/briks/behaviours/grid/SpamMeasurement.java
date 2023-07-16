@@ -24,8 +24,8 @@ public class SpamMeasurement extends TickerBehaviour {
 
         double frequency = 50 + 0.01 * (cfg.getGeneratedP() - cfg.getNecessaryP());
         cfg.setF(frequency);
-        log.debug("{} spam measurement: f={}, nP={}, nQ={}, gP={}, gQ={}", myAgent.getLocalName(),
-                cfg.getF(), cfg.getNecessaryP(), cfg.getNecessaryQ(), cfg.getGeneratedP(), cfg.getGeneratedQ());
+        log.info("{} spam measurement: f={}, nP={}, gP={}, nQ={}, gQ={}", myAgent.getLocalName(),
+                cfg.getF(), cfg.getNecessaryP(), cfg.getGeneratedP(), cfg.getNecessaryQ(), cfg.getGeneratedQ());
 
         service.saveMeasurementInDB(new Measurement(measurementIndex,
                 (System.currentTimeMillis() - startTime) / 1000L,
@@ -36,12 +36,5 @@ public class SpamMeasurement extends TickerBehaviour {
                 cfg.getGeneratedQ()));
         measurementIndex++;
 
-        if (measurementIndex == 10) {
-            cfg.setNecessaryP(150);
-        }
-
-        if (measurementIndex == 40) {
-            cfg.setNecessaryP(100);
-        }
     }
 }

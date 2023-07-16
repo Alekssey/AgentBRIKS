@@ -22,12 +22,10 @@ import java.util.List;
 @Service("service")
 public class ServiceImpl implements ServiceInterface {
 
-    private int lastIndex = 0;
-
-    private GridAgent gridAgent = null;
-
     @Autowired
     private RepositoryInterface repository;
+    private int lastIndex = 0;
+    private GridAgent gridAgent = null;
 
     @Override
     public String setPowerToGrid(double p, double q) {
@@ -37,38 +35,6 @@ public class ServiceImpl implements ServiceInterface {
         gridAgent.cfg.setNecessaryP(p);
         gridAgent.cfg.setNecessaryQ(q);
         return "Values successfully changed";
-    }
-
-
-    public Agent getAgentFromContext(String agentName) {
-        ApplicationContext context = ApplicationContextHolder.getContext();
-        AgentContainer mainContainer = (AgentContainer) context.getBean("mainContainer");
-
-        Agent agentInstance = null;
-
-        try {
-            AgentController agentController = mainContainer.getAgent(agentName);
-
-            Field agentAidField = agentController.getClass().getDeclaredField("agentID");
-            agentAidField.setAccessible(true);
-            Field agentContainerField = agentController.getClass().getDeclaredField("myContainer");
-            agentContainerField.setAccessible(true);
-
-            AID agentAID = (AID) agentAidField.get(agentController);
-            jade.core.AgentContainer agentContainer = (jade.core.AgentContainer) agentContainerField.get(agentController);
-
-            agentInstance = agentContainer.acquireLocalAgent(agentAID);
-        } catch (ControllerException e) {
-            throw new RuntimeException(e);
-        }
-        catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-        catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-
-        return agentInstance;
     }
 
     @Override
@@ -87,32 +53,36 @@ public class ServiceImpl implements ServiceInterface {
     }
 
     @Override
-    public AID getAidFromContext(String agentName) {
+    public Agent getAgentFromContext(String agentName) {
         ApplicationContext context = ApplicationContextHolder.getContext();
         AgentContainer mainContainer = (AgentContainer) context.getBean("mainContainer");
 
-        AID agentAid = null;
+        Agent agentInstance = null;
 
         try {
             AgentController agentController = mainContainer.getAgent(agentName);
 
             Field agentAidField = agentController.getClass().getDeclaredField("agentID");
             agentAidField.setAccessible(true);
+            Field agentContainerField = agentController.getClass().getDeclaredField("myContainer");
+            agentContainerField.setAccessible(true);
 
-            agentAid = (AID) agentAidField.get(agentController);
+            AID agentAID = (AID) agentAidField.get(agentController);
+            jade.core.AgentContainer agentContainer = (jade.core.AgentContainer) agentContainerField.get(agentController);
 
-        } catch (ControllerException e) {
+            agentInstance = agentContainer.acquireLocalAgent(agentAID);
+            agentContainer.releaseLocalAgent(agentAID);
+
+        } catch (ControllerException | NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
-        catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-        catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
 
-        return agentAid;
+        return agentInstance;
     }
+
+
+
 
 
 

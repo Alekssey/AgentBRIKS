@@ -4,7 +4,6 @@ import jade.core.Agent;
 import lombok.extern.slf4j.Slf4j;
 import ru.mpei.briks.behaviours.grid.ReceiveGenerationFromStation;
 import ru.mpei.briks.behaviours.grid.SpamMeasurement;
-import ru.mpei.briks.behaviours.grid.TestReceiveBehaviour;
 import ru.mpei.briks.extention.configirationClasses.GridConfiguration;
 import ru.mpei.briks.extention.helpers.DFHelper;
 
