@@ -1,5 +1,6 @@
 package ru.mpei.briks.behaviours.grid;
 
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +22,17 @@ public class SpamMeasurement extends TickerBehaviour {
 
     @Override
     protected void onTick() {
+        double deltaP = 0;
+        for (AID aid : cfg.getActivePowerData().keySet()) {
+            deltaP += cfg.getActivePowerData().get(aid);
+        }
+        log.info("Sum of powers: {}", deltaP);
 
-        double frequency = 50 + 0.01 * (cfg.getGeneratedP() - cfg.getNecessaryP());
+        double frequency = 50 + 0.01 * (deltaP);
         cfg.setF(frequency);
         log.info("{} spam measurement: f={}, nP={}, gP={}, nQ={}, gQ={}", myAgent.getLocalName(),
                 cfg.getF(), cfg.getNecessaryP(), cfg.getGeneratedP(), cfg.getNecessaryQ(), cfg.getGeneratedQ());
+
 
         service.saveMeasurementInDB(new Measurement(measurementIndex,
                 (System.currentTimeMillis() - startTime) / 1000L,

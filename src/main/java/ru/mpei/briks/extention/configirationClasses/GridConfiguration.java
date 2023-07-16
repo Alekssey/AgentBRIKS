@@ -1,11 +1,14 @@
 package ru.mpei.briks.extention.configirationClasses;
 
+import jade.core.AID;
 import lombok.Data;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @XmlRootElement(name="cfg")
@@ -21,4 +24,7 @@ public class GridConfiguration {
     private double generatedP;
     @XmlElement(name="gQ")
     private double generatedQ;
+
+    private Map<AID, Double> activePowerData = new HashMap<>();
+
 }

@@ -14,31 +14,16 @@
         <args>station1Config.xml</args>
     </agentDescription>
 
-<!--    <agentDescription>-->
-<!--        <name>station2</name>-->
-<!--        <class>ru.mpei.briks.agents.NetworkElementAgent</class>-->
-<!--        <args>station2Config.xml</args>-->
-<!--    </agentDescription>-->
+    <agentDescription>
+        <name>station2</name>
+        <class>ru.mpei.briks.agents.NetworkElementAgent</class>
+        <args>station2Config.xml</args>
+    </agentDescription>
 
-<!--    <agentDescription>-->
-<!--        <name>load1</name>-->
-<!--        <class>ru.mpei.briks.agents.NetworkElementAgent</class>-->
-<!--        <args>load1Config.xml</args>-->
-<!--    </agentDescription>-->
+    <agentDescription>
+        <name>load1</name>
+        <class>ru.mpei.briks.agents.NetworkElementAgent</class>
+        <args>load1Config.xml</args>
+    </agentDescription>
 
 </agentDescriptions>
-
-
-
-
-<!--    <agentDescription>-->
-<!--        <name>sender</name>-->
-<!--        <class>ru.mpei.briks.test.agents.SenderAgent</class>-->
-<!--        <arg>gridConfig.xml</arg>-->
-<!--    </agentDescription>-->
-
-<!--    <agentDescription>-->
-<!--        <name>receiver</name>-->
-<!--        <class>ru.mpei.briks.test.agents.ReceiverAgent</class>-->
-<!--        <args>station1Config.xml</args>-->
-<!--    </agentDescription>-->

@@ -10,6 +10,8 @@ public interface ServiceInterface {
     Measurement getLastMeasurement();
     Agent getAgentFromContext(String agentName);
 
+    String setPowerToLoad(String loadName, double p, double q);
+
 //    AID getAidFromContext(String agentName);
 //    void saveFile(MultipartFile file);
 //    String checkKZ(int begin, int end);

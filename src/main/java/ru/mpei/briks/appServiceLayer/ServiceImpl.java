@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import ru.mpei.briks.agents.GridAgent;
+import ru.mpei.briks.agents.NetworkElementAgent;
 import ru.mpei.briks.appRepositoryLayer.RepositoryInterface;
 import ru.mpei.briks.extention.ApplicationContextHolder;
 import ru.mpei.briks.extention.dto.Measurement;
@@ -36,6 +37,15 @@ public class ServiceImpl implements ServiceInterface {
         gridAgent.cfg.setNecessaryQ(q);
         return "Values successfully changed";
     }
+
+    @Override
+    public String setPowerToLoad(String loadName, double p, double q) {
+        NetworkElementAgent loadAgent = (NetworkElementAgent) getAgentFromContext(loadName);
+        loadAgent.getCfg().setCurrentGeneratingP(p);
+        loadAgent.getCfg().setCurrentGeneratingQ(q);
+        return "Values successfully changed";
+    }
+
 
     @Override
     public void saveMeasurementInDB(Measurement m) {
@@ -80,11 +90,6 @@ public class ServiceImpl implements ServiceInterface {
 
         return agentInstance;
     }
-
-
-
-
-
 
 
 

@@ -26,7 +26,7 @@ public class NetworkElementAgent extends Agent {
 
     @Override
     protected void setup() {
-        df.registration(this, "station");
+        df.registration(this, "networkUnit");
         log.info("{} was born", this.getLocalName());
         String configFileName = this.getLocalName() + "Configuration.xml";
         try{

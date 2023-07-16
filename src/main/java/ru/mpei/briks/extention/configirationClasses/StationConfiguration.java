@@ -13,11 +13,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class StationConfiguration {
     @XmlElement(name="maxP")
     private double maxP;
-    @XmlElement(name="currentGeneratingP")
+    @XmlElement(name="currentP")
     private double currentGeneratingP;
     @XmlElement(name="maxQ")
     private double maxQ;
-    @XmlElement(name="currentGeneratingQ")
+    @XmlElement(name="currentQ")
     private double currentGeneratingQ;
     private double f;
 }

@@ -2,7 +2,7 @@ package ru.mpei.briks.agents;
 
 import jade.core.Agent;
 import lombok.extern.slf4j.Slf4j;
-import ru.mpei.briks.behaviours.grid.ReceiveGenerationFromStation;
+import ru.mpei.briks.behaviours.grid.ReceiveAgentsData;
 import ru.mpei.briks.behaviours.grid.SpamMeasurement;
 import ru.mpei.briks.extention.configirationClasses.GridConfiguration;
 import ru.mpei.briks.extention.helpers.DFHelper;
@@ -31,7 +31,7 @@ public class GridAgent extends Agent {
         }
 
         this.addBehaviour(new SpamMeasurement(this, 1000, this.cfg));
-        this.addBehaviour(new ReceiveGenerationFromStation(this));
+        this.addBehaviour(new ReceiveAgentsData(this));
 
 //        this.addBehaviour(new TestReceiveBehaviour(this));
     }

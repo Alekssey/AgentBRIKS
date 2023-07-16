@@ -10,10 +10,10 @@ import ru.mpei.briks.extention.dto.AgentToGridDto;
 import ru.mpei.briks.extention.helpers.JacksonHelper;
 
 @Slf4j
-public class ReceiveGenerationFromStation extends Behaviour {
+public class ReceiveAgentsData extends Behaviour {
     private MessageTemplate mt = null;
 
-    public ReceiveGenerationFromStation(Agent a) {
+    public ReceiveAgentsData(Agent a) {
         super(a);
     }
 
@@ -26,9 +26,12 @@ public class ReceiveGenerationFromStation extends Behaviour {
     public void action() {
         ACLMessage msg = myAgent.receive(mt);
         if (msg != null) {
-//            log.info("Grid get power: {} from station", msg.getContent());
             AgentToGridDto dto = JacksonHelper.fromJackson(msg.getContent(), AgentToGridDto.class);
-            ((GridAgent) myAgent).cfg.setGeneratedP(dto.getActivePower());
+            if (msg.getSender().getLocalName().contains("load")) {
+                ((GridAgent) myAgent).cfg.getActivePowerData().put(msg.getSender(), - dto.getActivePower());
+            } else {
+                ((GridAgent) myAgent).cfg.getActivePowerData().put(msg.getSender(), dto.getActivePower());
+            }
         } else {
             block();
         }
