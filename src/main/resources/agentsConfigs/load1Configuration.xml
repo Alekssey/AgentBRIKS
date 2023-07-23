@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cfg>
-    <maxP>150</maxP>
-    <currentP>200</currentP>
+    <maxP>300</maxP>
+    <currentP>150</currentP>
     <maxQ>100</maxQ>
     <currentQ>50</currentQ>
 </cfg>

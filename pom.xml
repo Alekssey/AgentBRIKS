@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>ru.mpei</groupId>
-	<artifactId>ProjectBRIKS</artifactId>
+	<artifactId>ProjectBRICS</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ProjectBRIKS</name>
 	<description>Demo project for Spring Boot MPEI</description>
@@ -77,7 +77,7 @@
 
 		<dependency>
 			<groupId>com.tilab.jade</groupId>
-			<artifactId>jade</artifactId>t
+			<artifactId>jade</artifactId>
 			<version>4.5.0</version>
 		</dependency>
 
@@ -105,11 +105,13 @@
 			<version>7.15.0.Final</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-decisiontables</artifactId>
-			<version>7.15.0.Final</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.drools</groupId>-->
+<!--			<artifactId>drools-decisiontables</artifactId>-->
+<!--			<version>7.15.0.Final</version>-->
+<!--		</dependency>-->
+
+
 
 	</dependencies>
 

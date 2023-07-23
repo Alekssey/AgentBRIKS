@@ -1,0 +1,10 @@
+import ru.mpei.brics.extention.dto.DroolsFitnessDto;
+import jade.core.Agent;
+
+rule "station2 fitness calculation"
+    when
+        $dto: DroolsFitnessDto(agentName == "station2")
+    then
+        $dto.setFitnessVal(10 * (1- $dto.getCurrentP() / $dto.getMaxP()) + 10);
+//        $dto.setFitnessVal(1000);
+end

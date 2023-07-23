@@ -4,25 +4,25 @@
 
     <agentDescription>
         <name>grid</name>
-        <class>ru.mpei.briks.agents.GridAgent</class>
+        <class>ru.mpei.brics.agents.GridAgent</class>
         <arg>gridConfig.xml</arg>
     </agentDescription>
 
     <agentDescription>
         <name>station1</name>
-        <class>ru.mpei.briks.agents.NetworkElementAgent</class>
+        <class>ru.mpei.brics.agents.NetworkElementAgent</class>
         <args>station1Config.xml</args>
     </agentDescription>
 
     <agentDescription>
         <name>station2</name>
-        <class>ru.mpei.briks.agents.NetworkElementAgent</class>
+        <class>ru.mpei.brics.agents.NetworkElementAgent</class>
         <args>station2Config.xml</args>
     </agentDescription>
 
     <agentDescription>
         <name>load1</name>
-        <class>ru.mpei.briks.agents.NetworkElementAgent</class>
+        <class>ru.mpei.brics.agents.NetworkElementAgent</class>
         <args>load1Config.xml</args>
     </agentDescription>
 
