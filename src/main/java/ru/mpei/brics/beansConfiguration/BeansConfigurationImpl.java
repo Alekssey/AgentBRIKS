@@ -1,4 +1,4 @@
-package ru.mpei.brics.configuration;
+package ru.mpei.brics.beansConfiguration;
 
 import jade.core.ProfileImpl;
 import jade.wrapper.AgentContainer;
@@ -23,11 +23,15 @@ import java.io.File;
 
 @Configuration("agentConfiguration")
 @Slf4j
-public class AgentsConfigurationImpl implements AgentConfigurationInterface {
+public class BeansConfigurationImpl implements BeansConfigurationInterface {
     @Value("${agents.config.file.path}")
     private String configFilePath;
-    private KieServices kieServices = KieServices.Factory.get();
-//    private int index = 0;
+
+    @Override
+    @Bean("agentDescription")
+    public AgentDescription createAgentDescription() {
+        return new AgentDescription();
+    }
 
     @Override
     @Bean("agentDescriptionsContainer")
@@ -43,9 +47,8 @@ public class AgentsConfigurationImpl implements AgentConfigurationInterface {
         return adContainer;
     }
 
-//    @Scope("prototype")
-    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Override
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Bean("agentCreator")
     public AgentController createAgent(AgentDescription agentDescription, AgentContainer mainContainer) {
 
@@ -63,11 +66,8 @@ public class AgentsConfigurationImpl implements AgentConfigurationInterface {
         return newAgent;
     }
 
-    @Bean("agentDescription")
-    public AgentDescription createAgentDescription() {
-        return new AgentDescription();
-    }
 
+    @Override
     @Bean("jadeMainContainer")
     public AgentContainer startJadeMainContainer() {
         ProfileImpl profile = new ProfileImpl();
@@ -84,68 +84,11 @@ public class AgentsConfigurationImpl implements AgentConfigurationInterface {
         return mainContainer;
     }
 
+    @Override
     @Bean("kieContainer")
     public KieContainer createKieContainer() {
         KieServices ks = KieServices.Factory.get();
         KieContainer kContainer = ks.getKieClasspathContainer();
         return kContainer;
     }
-
-    /** песочница, Agent Description создается вручную, этот метод просто для более простого тестирования способов */
-/*    @Override
-    @Bean("agentCreator")
-    public AgentController createAgent(AgentContainer container) {
-
-        AgentDescription agentDescription = new AgentDescription();
-        agentDescription.setAgentName("grid");
-        agentDescription.setAgentClass(GridAgent.class);
-        agentDescription.setArgs(new Object[]{"gridConfig.xml"});
-
-        AgentController newAgent = null;
-
-        try {
-            newAgent = container.createNewAgent(
-                    agentDescription.getAgentName(),
-                    agentDescription.getAgentClass().getName(),
-                    agentDescription.getArgs());
-            newAgent.start();
-        } catch (StaleProxyException e) {
-            e.printStackTrace();
-        }
-
-//        GenericBeanDefinition gbd = new GenericBeanDefinition();
-//        gbd.setBeanClass(AgentWrapper.class);
-//        gbd.getPropertyValues().addPropertyValue("agentController", newAgent);
-//        DefaultListableBeanFactory context = new DefaultListableBeanFactory();
-//        context.registerBeanDefinition("gridBean", gbd);
-//        context.getBean("gridBean");
-
-
-//        GenericApplicationContext applicationContext = new GenericApplicationContext();
-//        AgentController finalNewAgent = newAgent;
-//        applicationContext.registerBean("grid", GridAgent.class);
-//        applicationContext.refresh();
-
-
-//        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-//        BeanDefinitionBuilder b = BeanDefinitionBuilder.rootBeanDefinition(AgentWrapper.class).addPropertyValue("agentController", newAgent);
-//        beanFactory.registerBeanDefinition("gridBean", b.getBeanDefinition());
-
-        return newAgent;
-    }*/
-
-    /** ТЕСТЫ - создание бинов одного тестового класса разного scope */
-/*    @Bean("testSingletonBean")
-    @Scope("singleton")
-    public BeanTest createSingletonTestBean() {
-        return new BeanTest();
-    }
-
-    @Bean("testPrototypeBean")
-    @Scope("prototype")
-    public BeanTest createPrototypeTestBean() {
-        return new BeanTest();
-    }*/
-
-
 }

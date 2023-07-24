@@ -32,8 +32,6 @@ public class GridAgent extends Agent {
 
         this.addBehaviour(new SpamMeasurement(this, 1000, this.cfg));
         this.addBehaviour(new ReceiveAgentsData(this));
-
-//        this.addBehaviour(new TestReceiveBehaviour(this));
     }
 
 }

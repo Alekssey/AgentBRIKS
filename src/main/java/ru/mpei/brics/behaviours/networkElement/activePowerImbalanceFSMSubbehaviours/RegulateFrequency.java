@@ -1,9 +1,10 @@
-package ru.mpei.brics.behaviours.powerStation;
+package ru.mpei.brics.behaviours.networkElement.activePowerImbalanceFSMSubbehaviours;
 
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import lombok.extern.slf4j.Slf4j;
 import ru.mpei.brics.agents.NetworkElementAgent;
+import ru.mpei.brics.behaviours.networkElement.activePowerImbalanceFSMSubbehaviours.AnalyzeFrequency;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 import ru.mpei.brics.extention.regulator.PiRegulator;
 import ru.mpei.brics.extention.regulator.Regulator;
@@ -28,7 +29,7 @@ public class RegulateFrequency extends TickerBehaviour {
 
     @Override
     public int onEnd() {
-        myAgent.addBehaviour(new AnalyzeMeasurements(myAgent, this.getPeriod()));
+        myAgent.addBehaviour(new AnalyzeFrequency(myAgent, this.getPeriod()));
         return 1;
     }
 }

@@ -21,19 +21,9 @@ public class ControllerImpl implements ControllerInterface{
         return service.setPowerToGrid(p, q);
     }
 
-//    @Override
+    @Override
     @PostMapping("/load/set/power")
     public String changeLoadPower(@RequestParam String loadName, @RequestParam double p, @RequestParam double q){
         return service.setPowerToLoad(loadName, p, q);
     }
-
-
-    @GetMapping("/data/test")
-    public boolean test(){
-        service.getAgentFromContext("station1");
-        return true;
-    }
-
-
-
 }

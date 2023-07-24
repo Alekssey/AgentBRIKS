@@ -1,16 +1,19 @@
 package ru.mpei.brics.extention.configirationClasses;
 
+import jade.core.AID;
 import lombok.Data;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.*;
 
 @Data
 @XmlRootElement(name="cfg")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NetworkElementConfiguration {
+    /** measurements */
     @XmlElement(name="maxP")
     private double maxP;
     @XmlElement(name="currentP")
@@ -20,5 +23,12 @@ public class NetworkElementConfiguration {
     @XmlElement(name="currentQ")
     private double currentQ;
     private double f = 50;
+
+    /** trade */
+    private int numberOfActiveAgents = 0;
     private boolean pTradeIsOpen = false;
+    private ArrayList<Double> fitnessValues = new ArrayList<>();
+    private Map<Double, AID> agentsQueue = new HashMap<>();
+
+
 }

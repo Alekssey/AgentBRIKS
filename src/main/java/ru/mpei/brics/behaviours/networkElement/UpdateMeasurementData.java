@@ -1,4 +1,4 @@
-package ru.mpei.brics.behaviours.powerStation;
+package ru.mpei.brics.behaviours.networkElement;
 
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;

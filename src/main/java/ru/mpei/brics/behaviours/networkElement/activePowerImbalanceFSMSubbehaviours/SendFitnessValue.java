@@ -1,8 +1,8 @@
-package ru.mpei.brics.behaviours.powerStation;
+package ru.mpei.brics.behaviours.networkElement.activePowerImbalanceFSMSubbehaviours;
 
 import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.TickerBehaviour;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.kie.api.runtime.KieContainer;
@@ -14,61 +14,49 @@ import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 import ru.mpei.brics.extention.dto.DroolsFitnessDto;
 import ru.mpei.brics.extention.helpers.DFHelper;
 
+import java.util.List;
 
 @Slf4j
-public class AnalyzeMeasurements extends TickerBehaviour {
-
+public class SendFitnessValue extends OneShotBehaviour {
     ApplicationContext context = ApplicationContextHolder.getContext();
     private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
-    double startTime;
 
-    public AnalyzeMeasurements(Agent a, long period) {
-        super(a, period);
+    public SendFitnessValue(Agent a) {
+        super(a);
     }
 
     @Override
-    protected void onTick() {
-//        log.error("freq: {}", cfg.getF());
-        if (cfg.getF() >= 50.1 || cfg.getF() <= 49.9) {
-            this.stop();
-            this.startTime = System.currentTimeMillis();
-        }
-    }
-
-    @Override
-    public int onEnd() {
-//        log.error("BEHAVIOUR END");
-        this.sendTradeRequestMsg();
-        return 1;
-    }
-
-
-    private void sendTradeRequestMsg() {
+    public void action() {
         ACLMessage msg = new ACLMessage();
+
         msg.setPerformative(ACLMessage.REQUEST);
         msg.setProtocol("initiatePowerTrade");
+
         double fitnessVal = doRequestFitnessFromDrools();
         msg.setContent(Double.toString(fitnessVal));
-        for(AID aid : DFHelper.findAgents(myAgent, "networkUnit")) {
+
+        List<AID> activeAgents = DFHelper.findAgents(myAgent, "networkUnit");
+        cfg.setNumberOfActiveAgents(activeAgents.size() - 1);
+        for(AID aid : activeAgents) {
             if(!aid.getLocalName().equals(myAgent.getLocalName())) {
                 msg.addReceiver(aid);
             }
         }
+
         myAgent.send(msg);
-        log.error("{} send fitness val: {};", myAgent.getLocalName(), msg.getContent());
+        log.info("{} send fitness val: {};", myAgent.getLocalName(), msg.getContent());
     }
 
     private double doRequestFitnessFromDrools() {
-//        double startTime = System.currentTimeMillis();
         KieContainer kieContainer = (KieContainer) context.getBean("kieContainer");
         KieSession kieSession = kieContainer.newKieSession();
         DroolsFitnessDto dto = new DroolsFitnessDto(myAgent.getLocalName(), cfg.getMaxP(), cfg.getCurrentP());
         kieSession.insert(dto);
         kieSession.fireAllRules();
-//        log.error("Request start time: {}", (System.currentTimeMillis() - startTime) / 1000);
+
+        this.cfg.getFitnessValues().add(dto.getFitnessVal());
+        this.cfg.getAgentsQueue().put(dto.getFitnessVal(), myAgent.getAID());
+
         return dto.getFitnessVal();
     }
-
-
 }
-
