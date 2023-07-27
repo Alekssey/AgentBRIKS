@@ -17,16 +17,30 @@ public class ActivePowerImbalanceFSM extends FSMBehaviour {
 
     public ActivePowerImbalanceFSM(Agent a, long period) {
         super(a);
-        registerFirstState(new AnalyzeFrequency(myAgent, period), "firstBeh");
+        registerFirstState(new AnalyzeFrequency(myAgent, period), "analyze");
         registerState(new SendFitnessValue(myAgent), "sendFitness");
         registerState(new ReceiveFitnessValues(myAgent), "receiveFitness");
         registerState(new RegulateFrequency(myAgent, period), "regulateFrequency");
+        registerState(new SendSuccessMsg(myAgent), "sendSuccess");
+        registerState(new SendFailMsg(myAgent), "sendFail");
+        registerState(new WaitForNotification(myAgent), "notificationWaiting");
         registerLastState(new MockLastBeh(myAgent), "refreshFSM");
 
-        registerDefaultTransition("firstBeh", "sendFitness");
+        registerDefaultTransition("analyze", "sendFitness");
         registerDefaultTransition("sendFitness", "receiveFitness");
+
         registerTransition("receiveFitness", "regulateFrequency", 1);
-        registerTransition("receiveFitness", "refreshFSM", 2);
+        registerTransition("regulateFrequency", "sendSuccess", 1);      // regulate -> send success (1)
+        registerTransition("regulateFrequency", "sendFail", 2);         // regulate -> send fail (2)
+        registerDefaultTransition("sendFail", "notificationWaiting");
+        registerDefaultTransition("sendSuccess", "refreshFSM");
+
+        registerTransition("receiveFitness", "notificationWaiting", 2);
+        registerTransition("notificationWaiting", "regulateFrequency", 1);// wait -> regulate (1)
+        registerTransition("notificationWaiting", "refreshFSM", 2);// wait -> last (2)
+
+
+
         registerDefaultTransition("regulateFrequency", "refreshFSM");
 
     }

@@ -13,7 +13,8 @@ import ru.mpei.brics.extention.regulator.Regulator;
 public class RegulateFrequency extends TickerBehaviour {
 
     private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
-    private Regulator regulator = new PiRegulator(5, 1.0);
+    private Regulator regulator = new PiRegulator(10, 1.0);
+    private int behaviourResult;
 
     public RegulateFrequency(Agent a, long period) {
         super(a, period);
@@ -21,15 +22,22 @@ public class RegulateFrequency extends TickerBehaviour {
 
     @Override
     protected void onTick() {
-        cfg.setCurrentP(cfg.getCurrentP() + regulator.getSupplement(50, cfg.getF()));
+        double supplement = regulator.getSupplement(50, cfg.getF());
+        if(cfg.getCurrentP() + supplement > cfg.getMaxP()) {
+            cfg.setCurrentP(cfg.getMaxP());
+            this.behaviourResult = 2;
+            this.stop();
+        } else {
+            cfg.setCurrentP(cfg.getCurrentP() + supplement);
+        }
         if(cfg.getF() >49.9 && cfg.getF() <= 50.1) {
+            this.behaviourResult = 1;
             this.stop();
         }
     }
 
     @Override
     public int onEnd() {
-        myAgent.addBehaviour(new AnalyzeFrequency(myAgent, this.getPeriod()));
-        return 1;
+        return behaviourResult;
     }
 }

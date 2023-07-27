@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cfg>
-    <maxP>300</maxP>
+    <maxP>500</maxP>
     <currentP>150</currentP>
     <maxQ>100</maxQ>
     <currentQ>50</currentQ>

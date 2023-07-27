@@ -20,6 +20,9 @@ public class MockLastBeh extends OneShotBehaviour {
     public void action() {
         log.info("\nFSM end. " +
                 "\nFitness list: {}; " +
-                "\nDeque map: {} \n", cfg.getFitnessValues(), cfg.getAgentsQueue());
+                "\nDeque map: {} " +
+                "\nCurrent power: {}\n\n",
+                cfg.getFitnessValues(), cfg.getAgentsQueue(), cfg.getCurrentP());
+
     }
 }
