@@ -1,4 +1,4 @@
-package ru.mpei.brics.behaviours.networkElement.activePowerImbalanceFSMSubbehaviours;
+package ru.mpei.brics.behaviours.networkElement;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -9,6 +9,7 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.context.ApplicationContext;
 import ru.mpei.brics.agents.NetworkElementAgent;
+import ru.mpei.brics.behaviours.networkElement.ActivePowerImbalanceFSM;
 import ru.mpei.brics.extention.ApplicationContextHolder;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 import ru.mpei.brics.extention.dto.DroolsFitnessDto;
@@ -33,6 +34,12 @@ public class AnalyzeFrequency extends TickerBehaviour {
         if (cfg.getF() >= 50.1 || cfg.getF() <= 49.9) {
             this.stop();
         }
+    }
+
+    @Override
+    public int onEnd() {
+        myAgent.addBehaviour(new ActivePowerImbalanceFSM(myAgent, this.getPeriod()));
+        return 1;
     }
 }
 

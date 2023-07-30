@@ -13,7 +13,7 @@ import java.util.*;
 @XmlRootElement(name="cfg")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NetworkElementConfiguration {
-    /** measurements */
+    /** meta information */
     @XmlElement(name="maxP")
     private double maxP;
     @XmlElement(name="currentP")
@@ -24,7 +24,13 @@ public class NetworkElementConfiguration {
     private double currentQ;
     private double f = 50;
 
-    /** trade */
+    /** regulator coefficients*/
+    @XmlElement(name = "kp")
+    private double kp;
+    @XmlElement(name = "ki")
+    private double ki;
+
+    /** active power trade */
     private int numberOfActiveAgents = 0;
     private boolean pTradeIsOpen = false;
     private ArrayList<Double> fitnessValues = new ArrayList<>();

@@ -3,8 +3,8 @@ package ru.mpei.brics.agents;
 import jade.core.Agent;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import ru.mpei.brics.behaviours.networkElement.ActivePowerImbalanceFSM;
-import ru.mpei.brics.behaviours.networkElement.UpdateMeasurementData;
+import ru.mpei.brics.behaviours.networkElement.UpdateFrequencyData;
+import ru.mpei.brics.behaviours.networkElement.AnalyzeFrequency;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 import ru.mpei.brics.extention.helpers.DFHelper;
 
@@ -35,8 +35,9 @@ public class NetworkElementAgent extends Agent {
         } catch (JAXBException e){
             e.printStackTrace();
         }
-        this.addBehaviour(new UpdateMeasurementData(this, 1000));
-        this.addBehaviour(new ActivePowerImbalanceFSM(this, 1000));
+        this.addBehaviour(new UpdateFrequencyData(this, 1000));
+//        this.addBehaviour(new ActivePowerImbalanceFSM(this, 1000));
+        this.addBehaviour(new AnalyzeFrequency(this, 1000));
 //        this.addBehaviour(new AnalyzeFrequency(this, 1000));
 //        this.addBehaviour(new ReceiveTradeRequest(this));
     }

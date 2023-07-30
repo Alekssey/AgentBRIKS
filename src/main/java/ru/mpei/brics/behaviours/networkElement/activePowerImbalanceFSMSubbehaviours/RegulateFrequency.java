@@ -4,7 +4,6 @@ import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import lombok.extern.slf4j.Slf4j;
 import ru.mpei.brics.agents.NetworkElementAgent;
-import ru.mpei.brics.behaviours.networkElement.activePowerImbalanceFSMSubbehaviours.AnalyzeFrequency;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 import ru.mpei.brics.extention.regulator.PiRegulator;
 import ru.mpei.brics.extention.regulator.Regulator;
@@ -13,7 +12,7 @@ import ru.mpei.brics.extention.regulator.Regulator;
 public class RegulateFrequency extends TickerBehaviour {
 
     private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
-    private Regulator regulator = new PiRegulator(10, 1.0);
+    private Regulator regulator = new PiRegulator(cfg.getKp(), cfg.getKi());
     private int behaviourResult;
 
     public RegulateFrequency(Agent a, long period) {

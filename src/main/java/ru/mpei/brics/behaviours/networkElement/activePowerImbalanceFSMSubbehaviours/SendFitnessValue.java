@@ -54,9 +54,10 @@ public class SendFitnessValue extends OneShotBehaviour {
         kieSession.insert(dto);
         kieSession.fireAllRules();
 
-        this.cfg.getFitnessValues().add(dto.getFitnessVal());
-        this.cfg.getAgentsQueue().put(dto.getFitnessVal(), myAgent.getAID());
+        double fitnessVal = dto.getFitnessVal() + Math.random() * 0.0001;
+        this.cfg.getFitnessValues().add(fitnessVal);
+        this.cfg.getAgentsQueue().put(fitnessVal, myAgent.getAID());
 
-        return dto.getFitnessVal();
+        return fitnessVal;
     }
 }

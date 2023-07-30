@@ -14,12 +14,12 @@ import ru.mpei.brics.extention.helpers.DFHelper;
 import ru.mpei.brics.extention.helpers.JacksonHelper;
 
 @Slf4j
-public class UpdateMeasurementData extends TickerBehaviour {
+public class UpdateFrequencyData extends TickerBehaviour {
     private ServiceInterface service = ApplicationContextHolder.getContext().getBean(ServiceInterface.class);
     private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
 
 
-    public UpdateMeasurementData(Agent a, long period) {
+    public UpdateFrequencyData(Agent a, long period) {
         super(a, period);
     }
 

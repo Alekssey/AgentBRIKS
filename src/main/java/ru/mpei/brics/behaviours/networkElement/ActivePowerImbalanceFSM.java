@@ -17,8 +17,8 @@ public class ActivePowerImbalanceFSM extends FSMBehaviour {
 
     public ActivePowerImbalanceFSM(Agent a, long period) {
         super(a);
-        registerFirstState(new AnalyzeFrequency(myAgent, period), "analyze");
-        registerState(new SendFitnessValue(myAgent), "sendFitness");
+//        registerFirstState(new AnalyzeFrequency(myAgent, period), "analyze");
+        registerFirstState(new SendFitnessValue(myAgent), "sendFitness");
         registerState(new ReceiveFitnessValues(myAgent), "receiveFitness");
         registerState(new RegulateFrequency(myAgent, period), "regulateFrequency");
         registerState(new SendSuccessMsg(myAgent), "sendSuccess");
@@ -26,7 +26,7 @@ public class ActivePowerImbalanceFSM extends FSMBehaviour {
         registerState(new WaitForNotification(myAgent), "notificationWaiting");
         registerLastState(new MockLastBeh(myAgent), "refreshFSM");
 
-        registerDefaultTransition("analyze", "sendFitness");
+//        registerDefaultTransition("analyze", "sendFitness");
         registerDefaultTransition("sendFitness", "receiveFitness");
 
         registerTransition("receiveFitness", "regulateFrequency", 1);

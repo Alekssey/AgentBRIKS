@@ -26,6 +26,7 @@ public class WaitForNotification extends Behaviour {
             switch (dto.getStatus()) {
                 case FAIL:
                     this.behaviourResult = 1;
+//                    sendConfirmAnswer(msg);
                     break;
                 case SUCCESS:
                     this.behaviourResult = 2;
@@ -45,5 +46,12 @@ public class WaitForNotification extends Behaviour {
     @Override
     public boolean done() {
         return this.doneFlg;
+    }
+
+    private void sendConfirmAnswer(ACLMessage msg) {
+        ACLMessage answer = new ACLMessage();
+        answer.setPerformative(ACLMessage.CONFIRM);
+        answer.addReceiver(msg.getSender());
+        myAgent.send(answer);
     }
 }

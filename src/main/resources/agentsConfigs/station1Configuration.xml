@@ -4,4 +4,6 @@
     <currentP>100</currentP>
     <maxQ>100</maxQ>
     <currentQ>50</currentQ>
+    <kp>10</kp>
+    <ki>1</ki>
 </cfg>

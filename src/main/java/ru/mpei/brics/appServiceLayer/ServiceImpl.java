@@ -14,6 +14,8 @@ import ru.mpei.brics.agents.NetworkElementAgent;
 import ru.mpei.brics.appRepositoryLayer.RepositoryInterface;
 import ru.mpei.brics.extention.ApplicationContextHolder;
 import ru.mpei.brics.extention.dto.Measurement;
+import ru.mpei.brics.extention.dto.Response;
+import ru.mpei.brics.extention.dto.TSDBResponse;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -27,6 +29,7 @@ public class ServiceImpl implements ServiceInterface {
     private RepositoryInterface repository;
     private int lastIndex = 0;
     private GridAgent gridAgent = null;
+    private double startTime = System.currentTimeMillis();
 
     @Override
     public String setPowerToGrid(double p, double q) {
@@ -46,6 +49,7 @@ public class ServiceImpl implements ServiceInterface {
         return "Current P: " + loadAgent.getCfg().getCurrentP() + "; Max P: " + loadAgent.getCfg().getMaxP();
 //        return "Values successfully changed";
     }
+
 
 
     @Override
@@ -92,6 +96,15 @@ public class ServiceImpl implements ServiceInterface {
         return agentInstance;
     }
 
+    @Override
+    public TSDBResponse getMeasurementsByParameters(List<String> paramNames, int collectBeforeSec) {
+        Measurement m = this.getLastMeasurement();
+        Response r = new Response(
+                "frequency",
+                List.of(Double.toHexString(m.getFrequency())),
+                List.of(Double.toString((System.currentTimeMillis() - this.startTime) / 1000)));
+        return new TSDBResponse(List.of(r));
+    }
 
 
 }
