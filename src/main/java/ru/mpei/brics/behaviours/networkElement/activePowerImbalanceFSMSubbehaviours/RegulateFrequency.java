@@ -21,15 +21,20 @@ public class RegulateFrequency extends TickerBehaviour {
 
     @Override
     protected void onTick() {
-        double supplement = regulator.getSupplement(50, cfg.getF());
+        double supplement = regulator.getSupplement(cfg.getTargetFreq(), cfg.getF());
         if(cfg.getCurrentP() + supplement > cfg.getMaxP()) {
             cfg.setCurrentP(cfg.getMaxP());
+            this.behaviourResult = 2;
+            this.stop();
+        } else if (cfg.getCurrentP() + supplement <= 0) {
+            cfg.setCurrentP(0);
             this.behaviourResult = 2;
             this.stop();
         } else {
             cfg.setCurrentP(cfg.getCurrentP() + supplement);
         }
-        if(cfg.getF() >49.9 && cfg.getF() <= 50.1) {
+        if(cfg.getF() >= cfg.getTargetFreq() - cfg.getDeltaFreq()
+                && cfg.getF() <= cfg.getTargetFreq() + cfg.getDeltaFreq()) {
             this.behaviourResult = 1;
             this.stop();
         }

@@ -99,9 +99,13 @@ public class ServiceImpl implements ServiceInterface {
     @Override
     public TSDBResponse getMeasurementsByParameters(List<String> paramNames, int collectBeforeSec) {
         Measurement m = this.getLastMeasurement();
+        if(m == null) {
+            return null;
+        }
+
         Response r = new Response(
                 "frequency",
-                List.of(Double.toHexString(m.getFrequency())),
+                List.of(Double.toString(m.getFrequency())),
                 List.of(Double.toString((System.currentTimeMillis() - this.startTime) / 1000)));
         return new TSDBResponse(List.of(r));
     }

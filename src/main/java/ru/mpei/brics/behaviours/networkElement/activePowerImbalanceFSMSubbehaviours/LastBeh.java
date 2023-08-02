@@ -4,15 +4,16 @@ import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 import lombok.extern.slf4j.Slf4j;
 import ru.mpei.brics.agents.NetworkElementAgent;
+import ru.mpei.brics.behaviours.networkElement.AnalyzeFrequency;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 
 @Slf4j
-public class MockLastBeh extends OneShotBehaviour {
+public class LastBeh extends OneShotBehaviour {
 
     private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
 
 
-    public MockLastBeh(Agent a) {
+    public LastBeh(Agent a) {
         super(a);
     }
 
@@ -23,6 +24,11 @@ public class MockLastBeh extends OneShotBehaviour {
                 "\nDeque map: {} " +
                 "\nCurrent power: {}\n\n",
                 cfg.getFitnessValues(), cfg.getAgentsQueue(), cfg.getCurrentP());
+        cfg.setNumberOfActiveAgents(0);
+        cfg.setPTradeIsOpen(false);
+        cfg.getFitnessValues().clear();
+        cfg.getAgentsQueue().clear();
+        myAgent.addBehaviour(new AnalyzeFrequency(myAgent, 1000));
 
     }
 }

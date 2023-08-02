@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import ru.mpei.brics.agents.NetworkElementAgent;
 import ru.mpei.brics.extention.ApplicationContextHolder;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
-import ru.mpei.brics.extention.dto.DroolsFitnessDto;
+import ru.mpei.brics.extention.dto.DroolsFrequencyFitnessDto;
 import ru.mpei.brics.extention.helpers.DFHelper;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public class SendFitnessValue extends OneShotBehaviour {
     private double doRequestFitnessFromDrools() {
         KieContainer kieContainer = (KieContainer) context.getBean("kieContainer");
         KieSession kieSession = kieContainer.newKieSession();
-        DroolsFitnessDto dto = new DroolsFitnessDto(myAgent.getLocalName(), cfg.getMaxP(), cfg.getCurrentP());
+        DroolsFrequencyFitnessDto dto = new DroolsFrequencyFitnessDto(myAgent.getLocalName(), cfg.getMaxP(), cfg.getCurrentP(), cfg.getF());
         kieSession.insert(dto);
         kieSession.fireAllRules();
 

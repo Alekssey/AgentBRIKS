@@ -14,13 +14,13 @@ import java.util.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NetworkElementConfiguration {
     /** meta information */
-    @XmlElement(name="maxP")
+    @XmlElement(name = "maxP")
     private double maxP;
-    @XmlElement(name="currentP")
+    @XmlElement(name = "currentP")
     private double currentP;
-    @XmlElement(name="maxQ")
+    @XmlElement(name = "maxQ")
     private double maxQ;
-    @XmlElement(name="currentQ")
+    @XmlElement(name = "currentQ")
     private double currentQ;
     private double f = 50;
 
@@ -29,6 +29,10 @@ public class NetworkElementConfiguration {
     private double kp;
     @XmlElement(name = "ki")
     private double ki;
+    @XmlElement(name = "targetFreq")
+    private double targetFreq;
+    @XmlElement(name = "deltaFrequency")
+    private double deltaFreq;
 
     /** active power trade */
     private int numberOfActiveAgents = 0;

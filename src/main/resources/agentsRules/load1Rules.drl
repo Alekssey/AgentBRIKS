@@ -1,10 +1,16 @@
-import ru.mpei.brics.extention.dto.DroolsFitnessDto;
+import ru.mpei.brics.extention.dto.DroolsFrequencyFitnessDto;
 import jade.core.Agent;
 
-rule "load1 fitness calculation"
+rule "load1 active power deficit fitness calculation"
     when
-        $dto: DroolsFitnessDto(agentName == "load1")
+        $dto: DroolsFrequencyFitnessDto(agentName == "load1", currentFreq < 50)
     then
-        $dto.setFitnessVal(10 * $dto.getCurrentP() / $dto.getMaxP());
-//        $dto.setFitnessVal(10);
+        $dto.setFitnessVal(10 * ($dto.getCurrentP() / $dto.getMaxP()));
+end
+
+rule "load1 active power surplus fitness calculation"
+    when
+        $dto: DroolsFrequencyFitnessDto(agentName == "load1", currentFreq > 50)
+    then
+        $dto.setFitnessVal(10 * (1- $dto.getCurrentP() / $dto.getMaxP()));
 end

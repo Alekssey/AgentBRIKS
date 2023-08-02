@@ -10,8 +10,11 @@ import ru.mpei.brics.extention.ApplicationContextHolder;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 import ru.mpei.brics.extention.dto.AgentToGridDto;
 import ru.mpei.brics.extention.dto.Measurement;
+import ru.mpei.brics.extention.dto.TSDBResponse;
 import ru.mpei.brics.extention.helpers.DFHelper;
 import ru.mpei.brics.extention.helpers.JacksonHelper;
+
+import java.util.List;
 
 @Slf4j
 public class UpdateFrequencyData extends TickerBehaviour {
@@ -25,10 +28,17 @@ public class UpdateFrequencyData extends TickerBehaviour {
 
     @Override
     protected void onTick() {
-        Measurement m = service.getLastMeasurement();
+/*        Measurement m = service.getLastMeasurement();
 //        log.info(JacksonHelper.toJackson(m));
         if (m != null) {
             cfg.setF(m.getFrequency());
+        }*/
+
+        TSDBResponse response = service.getMeasurementsByParameters(List.of("frequency"), 0);
+        if(response != null) {
+            this.cfg.setF(Double.parseDouble(
+                    response.getResponses().get(0).getValues().get(0)
+            ));
         }
 
         sendMessageToGrid();

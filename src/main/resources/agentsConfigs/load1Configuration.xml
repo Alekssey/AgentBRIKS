@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cfg>
+    <!--    element information         -->
     <maxP>500</maxP>
     <currentP>150</currentP>
     <maxQ>100</maxQ>
     <currentQ>50</currentQ>
-    <kp>10</kp>
-    <ki>1</ki>
+
+    <!--    PI regulator parameters     -->
+    <kp>-10</kp>
+    <ki>-0.5</ki>
+    <targetFreq>50</targetFreq>
+    <deltaFrequency>0.01</deltaFrequency>
 </cfg>
