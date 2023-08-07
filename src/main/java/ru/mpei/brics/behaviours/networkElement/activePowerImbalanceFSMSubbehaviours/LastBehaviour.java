@@ -8,12 +8,12 @@ import ru.mpei.brics.behaviours.networkElement.AnalyzeFrequency;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 
 @Slf4j
-public class LastBeh extends OneShotBehaviour {
+public class LastBehaviour extends OneShotBehaviour {
 
     private NetworkElementConfiguration cfg = ((NetworkElementAgent) myAgent).getCfg();
 
 
-    public LastBeh(Agent a) {
+    public LastBehaviour(Agent a) {
         super(a);
     }
 
@@ -28,6 +28,7 @@ public class LastBeh extends OneShotBehaviour {
         cfg.setPTradeIsOpen(false);
         cfg.getFitnessValues().clear();
         cfg.getAgentsQueue().clear();
+        ((NetworkElementAgent) myAgent).setKieSession(null);
         myAgent.addBehaviour(new AnalyzeFrequency(myAgent, 1000));
 
     }

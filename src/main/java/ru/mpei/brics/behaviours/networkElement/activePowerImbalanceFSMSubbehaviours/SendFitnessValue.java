@@ -50,6 +50,9 @@ public class SendFitnessValue extends OneShotBehaviour {
     private double doRequestFitnessFromDrools() {
         KieContainer kieContainer = (KieContainer) context.getBean("kieContainer");
         KieSession kieSession = kieContainer.newKieSession();
+        if(((NetworkElementAgent) myAgent).getKieSession() == null) {
+            ((NetworkElementAgent) myAgent).setKieSession(kieSession);
+        }
         DroolsFrequencyFitnessDto dto = new DroolsFrequencyFitnessDto(myAgent.getLocalName(), cfg.getMaxP(), cfg.getCurrentP(), cfg.getF());
         kieSession.insert(dto);
         kieSession.fireAllRules();

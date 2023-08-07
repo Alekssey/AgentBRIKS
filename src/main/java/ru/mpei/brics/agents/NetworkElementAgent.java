@@ -2,7 +2,9 @@ package ru.mpei.brics.agents;
 
 import jade.core.Agent;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.kie.api.runtime.KieSession;
 import ru.mpei.brics.behaviours.networkElement.UpdateFrequencyData;
 import ru.mpei.brics.behaviours.networkElement.AnalyzeFrequency;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
@@ -17,8 +19,8 @@ import java.io.File;
 public class NetworkElementAgent extends Agent {
     @Getter
     private NetworkElementConfiguration cfg = null;
-//    @Getter
-//    private KieSession kieSession = null;
+    @Getter @Setter
+    private KieSession kieSession = null;
 //    @Getter
 //    private KieContainer kieContainer = null;
     private DFHelper df = new DFHelper();

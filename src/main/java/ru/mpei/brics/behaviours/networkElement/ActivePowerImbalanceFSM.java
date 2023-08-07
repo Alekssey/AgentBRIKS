@@ -24,7 +24,7 @@ public class ActivePowerImbalanceFSM extends FSMBehaviour {
         registerState(new SendSuccessMsg(myAgent), "sendSuccess");
         registerState(new SendFailMsg(myAgent), "sendFail");
         registerState(new WaitForNotification(myAgent), "notificationWaiting");
-        registerLastState(new LastBeh(myAgent), "refreshFSM");
+        registerLastState(new LastBehaviour(myAgent), "refreshFSM");
 
 //        registerDefaultTransition("analyze", "sendFitness");
         registerDefaultTransition("sendFitness", "receiveFitness");
