@@ -12,7 +12,7 @@ import ru.mpei.brics.agents.NetworkElementAgent;
 import ru.mpei.brics.extention.ApplicationContextHolder;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 import ru.mpei.brics.extention.dto.DroolsFrequencyFitnessDto;
-import ru.mpei.brics.extention.helpers.DFHelper;
+//import ru.mpei.brics.extention.helpers.DFHelper;
 
 import java.util.List;
 
@@ -35,12 +35,11 @@ public class SendFitnessValue extends OneShotBehaviour {
         double fitnessVal = doRequestFitnessFromDrools();
         msg.setContent(Double.toString(fitnessVal));
 
-        List<AID> activeAgents = DFHelper.findAgents(myAgent, "networkUnit");
-        cfg.setNumberOfActiveAgents(activeAgents.size() - 1);
-        for(AID aid : activeAgents) {
-            if(!aid.getLocalName().equals(myAgent.getLocalName())) {
-                msg.addReceiver(aid);
-            }
+//        List<AID> activeAgents = DFHelper.findAgents(myAgent, "networkUnit");
+//        List<AID> activeAgents = ((NetworkElementAgent) myAgent).getADetector().getActiveAgents();
+//        cfg.setNumberOfActiveAgents(activeAgents.size() - 1);
+        for(AID aid : ((NetworkElementAgent) myAgent).getADetector().getActiveAgents()) {
+            msg.addReceiver(aid);
         }
 
         myAgent.send(msg);
@@ -57,7 +56,7 @@ public class SendFitnessValue extends OneShotBehaviour {
         kieSession.insert(dto);
         kieSession.fireAllRules();
 
-        double fitnessVal = dto.getFitnessVal() + Math.random() * 0.0001;
+        double fitnessVal = dto.getFitnessVal() + Math.random() * 0.00001;
         this.cfg.getFitnessValues().add(fitnessVal);
         this.cfg.getAgentsQueue().put(fitnessVal, myAgent.getAID());
 

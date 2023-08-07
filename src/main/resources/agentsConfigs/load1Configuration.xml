@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cfg>
+    <!--  agent detector parameters  -->
+    <interface>\\Device\\NPF_Loopback</interface>
+    <period>1000</period>
+    <port>1250</port>
+
     <!--    element information         -->
     <maxP>500</maxP>
     <currentP>150</currentP>

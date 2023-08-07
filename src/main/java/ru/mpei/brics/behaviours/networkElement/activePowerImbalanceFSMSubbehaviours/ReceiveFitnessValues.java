@@ -52,6 +52,6 @@ public class ReceiveFitnessValues extends Behaviour {
 
     @Override
     public boolean done() {
-        return msgCounter == this.cfg.getNumberOfActiveAgents();
+        return msgCounter == ((NetworkElementAgent) myAgent).getADetector().getActiveAgents().size();
     }
 }

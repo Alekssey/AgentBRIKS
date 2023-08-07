@@ -1,5 +1,6 @@
 package ru.mpei.brics.behaviours.networkElement;
 
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -48,6 +49,12 @@ public class UpdateFrequencyData extends TickerBehaviour {
         ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
         msg.setContent(JacksonHelper.toJackson(new AgentToGridDto(cfg.getCurrentP())));
         msg.setProtocol("info about generation");
+//        List<AID> aidList = ((NetworkElementAgent) myAgent).getADetector().getActiveAgents();
+//        for( AID aid : aidList) {
+//            if(aid.getLocalName().equals("grid")) {
+//                msg.addReceiver(aid);
+//            }
+//        }
         msg.addReceiver(DFHelper.findAgents(myAgent, "grid").get(0));
         myAgent.send(msg);
     }

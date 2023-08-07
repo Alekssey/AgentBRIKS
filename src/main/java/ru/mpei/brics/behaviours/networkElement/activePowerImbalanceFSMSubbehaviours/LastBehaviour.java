@@ -24,7 +24,7 @@ public class LastBehaviour extends OneShotBehaviour {
                 "\nDeque map: {} " +
                 "\nCurrent power: {}\n\n",
                 cfg.getFitnessValues(), cfg.getAgentsQueue(), cfg.getCurrentP());
-        cfg.setNumberOfActiveAgents(0);
+//        cfg.setNumberOfActiveAgents(0);
         cfg.setPTradeIsOpen(false);
         cfg.getFitnessValues().clear();
         cfg.getAgentsQueue().clear();

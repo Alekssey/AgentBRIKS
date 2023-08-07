@@ -24,6 +24,14 @@ public class NetworkElementConfiguration {
     private double currentQ;
     private double f = 50;
 
+    /** agent detector parameters*/
+    @XmlElement(name = "interface")
+    private String iFace;
+    @XmlElement(name = "period")
+    private int period;
+    @XmlElement(name = "port")
+    private int port;
+
     /** regulator coefficients*/
     @XmlElement(name = "kp")
     private double kp;
@@ -35,7 +43,7 @@ public class NetworkElementConfiguration {
     private double deltaFreq;
 
     /** active power trade */
-    private int numberOfActiveAgents = 0;
+//    private int numberOfActiveAgents = 0;
     private boolean pTradeIsOpen = false;
     private ArrayList<Double> fitnessValues = new ArrayList<>();
     private Map<Double, AID> agentsQueue = new HashMap<>();

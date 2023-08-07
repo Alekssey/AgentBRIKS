@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cfg>
-<!--    element information         -->
+    <!--  agent detector parameters  -->
+    <interface>\\Device\\NPF_Loopback</interface>
+    <period>1000</period>
+    <port>1250</port>
+
+    <!--    element information         -->
     <maxP>200</maxP>
     <currentP>50</currentP>
     <maxQ>100</maxQ>
     <currentQ>50</currentQ>
 
-<!--    PI regulator parameters     -->
+    <!--    PI regulator parameters     -->
     <kp>10</kp>
     <ki>0.5</ki>
     <targetFreq>50</targetFreq>

@@ -21,7 +21,7 @@ public class SendFailMsg extends OneShotBehaviour {
     public void action() {
         ACLMessage msg = new ACLMessage();
         msg.setPerformative(ACLMessage.REQUEST);
-        msg.setProtocol("successful regulating");
+        msg.setProtocol("unsuccessful regulating");
         AgentToAgentDto dto = new AgentToAgentDto(TradeStatus.FAIL);
         msg.setContent(JacksonHelper.toJackson(dto));
         msg.addReceiver(findNexInQueue());

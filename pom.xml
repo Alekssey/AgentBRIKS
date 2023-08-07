@@ -105,11 +105,12 @@
 			<version>7.15.0.Final</version>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>org.drools</groupId>-->
-<!--			<artifactId>drools-decisiontables</artifactId>-->
-<!--			<version>7.15.0.Final</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.pcap4j</groupId>
+			<artifactId>pcap4j-distribution</artifactId>
+			<version>1.8.2</version>
+			<type>pom</type>
+		</dependency>
 
 
 
