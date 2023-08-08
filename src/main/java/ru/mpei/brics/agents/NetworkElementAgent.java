@@ -9,7 +9,6 @@ import ru.mpei.brics.behaviours.networkElement.UpdateFrequencyData;
 import ru.mpei.brics.behaviours.networkElement.AnalyzeFrequency;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
 import ru.mpei.brics.extention.helpers.AgentDetector.AgentDetector;
-//import ru.mpei.brics.extention.helpers.DFHelper;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -24,12 +23,11 @@ public class NetworkElementAgent extends Agent {
     private KieSession kieSession = null;
     @Getter
     private AgentDetector aDetector = null;
-//    private DFHelper df = new DFHelper();
+    @Getter @Setter
+    private long startTime;
 
     @Override
     protected void setup() {
-
-//        df.registration(this, "networkUnit");
         log.info("{} was born", this.getLocalName());
         String configFileName = this.getLocalName() + "Configuration.xml";
         try{
@@ -40,13 +38,9 @@ public class NetworkElementAgent extends Agent {
             e.printStackTrace();
         }
 
-        System.out.println();
-        this.aDetector = new AgentDetector(this.getAID(), "\\Device\\NPF_Loopback", this.cfg.getPeriod(), this.cfg.getPort());
+        this.aDetector = new AgentDetector(this.getAID(), this.cfg.getIFace(), this.cfg.getPeriod(), this.cfg.getPort());
 
-        this.addBehaviour(new UpdateFrequencyData(this, 1000));
-        this.addBehaviour(new AnalyzeFrequency(this, 1000));
-//        this.addBehaviour(new ActivePowerImbalanceFSM(this, 1000));
-//        this.addBehaviour(new AnalyzeFrequency(this, 1000));
-//        this.addBehaviour(new ReceiveTradeRequest(this));
+        this.addBehaviour(new UpdateFrequencyData(this, this.cfg.getPeriod()));
+        this.addBehaviour(new AnalyzeFrequency(this, this.cfg.getPeriod()));
     }
 }

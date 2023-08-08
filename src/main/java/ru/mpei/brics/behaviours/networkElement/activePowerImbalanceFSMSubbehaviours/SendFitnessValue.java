@@ -38,9 +38,12 @@ public class SendFitnessValue extends OneShotBehaviour {
 //        List<AID> activeAgents = DFHelper.findAgents(myAgent, "networkUnit");
 //        List<AID> activeAgents = ((NetworkElementAgent) myAgent).getADetector().getActiveAgents();
 //        cfg.setNumberOfActiveAgents(activeAgents.size() - 1);
-        for(AID aid : ((NetworkElementAgent) myAgent).getADetector().getActiveAgents()) {
-            msg.addReceiver(aid);
-        }
+
+//        for(AID aid : ((NetworkElementAgent) myAgent).getADetector().getActiveAgents()) {
+//            msg.addReceiver(aid);
+//        }
+
+        ((NetworkElementAgent) myAgent).getADetector().getActiveAgents().forEach(msg::addReceiver);
 
         myAgent.send(msg);
         log.info("{} send fitness val: {};", myAgent.getLocalName(), msg.getContent());

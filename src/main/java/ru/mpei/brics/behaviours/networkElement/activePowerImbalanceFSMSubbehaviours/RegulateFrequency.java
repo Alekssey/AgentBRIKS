@@ -40,7 +40,7 @@ public class RegulateFrequency extends TickerBehaviour {
                 myAgent.getLocalName(), cfg.getMaxP(), cfg.getCurrentP(), cfg.getF());
         ((NetworkElementAgent) myAgent).getKieSession().insert(dto);
         ((NetworkElementAgent) myAgent).getKieSession().fireAllRules();
-        log.error("Allow signal: {}", dto.isAllow());
+//        log.error("Allow signal: {}", dto.isAllow());
         if(dto.isAllow()) {
             double supplement = regulator.getSupplement(cfg.getTargetFreq(), cfg.getF());
             if(cfg.getCurrentP() + supplement > cfg.getMaxP()) {

@@ -3,6 +3,7 @@ package ru.mpei.brics.behaviours.networkElement.activePowerImbalanceFSMSubbehavi
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.dialect.SybaseAnywhereDialect;
 import ru.mpei.brics.agents.NetworkElementAgent;
 import ru.mpei.brics.behaviours.networkElement.AnalyzeFrequency;
 import ru.mpei.brics.extention.configirationClasses.NetworkElementConfiguration;
@@ -29,7 +30,7 @@ public class LastBehaviour extends OneShotBehaviour {
         cfg.getFitnessValues().clear();
         cfg.getAgentsQueue().clear();
         ((NetworkElementAgent) myAgent).setKieSession(null);
-        myAgent.addBehaviour(new AnalyzeFrequency(myAgent, 1000));
-
+        myAgent.addBehaviour(new AnalyzeFrequency(myAgent, ((NetworkElementAgent) myAgent).getCfg().getPeriod()));
+        log.error("regulating time: {}", (System.currentTimeMillis() - ((NetworkElementAgent) myAgent).getStartTime()) / 1000);
     }
 }

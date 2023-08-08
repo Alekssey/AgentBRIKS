@@ -30,6 +30,7 @@ public class AnalyzeFrequency extends TickerBehaviour {
 
     @Override
     public int onEnd() {
+        ((NetworkElementAgent) myAgent).setStartTime(System.currentTimeMillis());
         myAgent.addBehaviour(new ActivePowerImbalanceFSM(myAgent, this.getPeriod()));
         return 1;
     }

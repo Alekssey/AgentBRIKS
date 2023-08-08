@@ -24,14 +24,17 @@ public class SendSuccessMsg extends OneShotBehaviour {
         AgentToAgentDto dto = new AgentToAgentDto(TradeStatus.SUCCESS);
         msg.setContent(JacksonHelper.toJackson(dto));
 
-        for(AID aid : ((NetworkElementAgent) myAgent).getADetector().getActiveAgents()) {
-            msg.addReceiver(aid);
-        }
+//        for(AID aid : ((NetworkElementAgent) myAgent).getADetector().getActiveAgents()) {
+//            msg.addReceiver(aid);
+//        }
+
 //        for(AID aid: DFHelper.findAgents(myAgent, "networkUnit")) {
 //            if(!aid.equals(myAgent.getAID())) {
 //                msg.addReceiver(aid);
 //            }
 //        }
+
+        ((NetworkElementAgent) myAgent).getADetector().getActiveAgents().forEach(msg::addReceiver);
         myAgent.send(msg);
     }
 }
