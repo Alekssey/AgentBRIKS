@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cfg>
+    <!--  agent detector parameters  -->
+    <interface>\Device\NPF_Loopback</interface>
+    <udpPeriod>1000</udpPeriod>
+    <udpPort>1250</udpPort>
+
+    <!--    element information         -->
+    <maxP>150</maxP>
+    <minP>0</minP>
+    <currentP>100</currentP>
+    <maxQ>100</maxQ>
+    <currentQ>50</currentQ>
+    <behavioursPeriod>1000</behavioursPeriod>
+
+    <!--  commands names  -->
+    <pCommandName>akbActivePower</pCommandName>
+    <pMeasurementName>akbActivePower</pMeasurementName>
+    <identifyingCommand>akbConnecting</identifyingCommand>
+
+    <!--    PI regulator parameters     -->
+    <kp>5</kp>
+    <ki>1.0</ki>
+    <targetFreq>50</targetFreq>
+    <deltaFrequency>0.01</deltaFrequency>
+    <maxRegulationTime>30000</maxRegulationTime>
+
+</cfg>

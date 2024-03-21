@@ -1,0 +1,24 @@
+import ru.mpei.brics.model.KnowledgeBaseFitnessDto;
+import ru.mpei.brics.model.KnowledgeBaseAllowDto;
+import jade.core.Agent;
+
+rule "dgu active power deficit fitness calculation"
+    when
+        $dto: KnowledgeBaseFitnessDto(currentFreq < 50)
+    then
+        $dto.setFitnessVal(10 * (1- $dto.getCurrentP() / $dto.getMaxP()) + 10);
+end
+
+rule "dgu active power surplus fitness calculation"
+    when
+        $dto: KnowledgeBaseFitnessDto(currentFreq > 50)
+    then
+        $dto.setFitnessVal(10 * ($dto.getCurrentP() / $dto.getMaxP()) + 10);
+end
+
+rule "dgu allow signal"
+    when
+        $dto: KnowledgeBaseAllowDto(currentP <= maxP && currentP >= 0)
+    then
+        $dto.setAllow(true);
+end
