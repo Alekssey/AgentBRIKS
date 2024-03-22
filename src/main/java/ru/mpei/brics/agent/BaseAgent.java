@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import ru.mpei.brics.agentDetector.UDPAgentDetector;
+import ru.mpei.brics.model.ElementsTypes;
 import ru.mpei.brics.model.NetworkElementConfiguration;
 import ru.mpei.brics.utils.CommunicationWithContext;
 import ru.mpei.brics.utils.CommunicatorWith104Service;
@@ -23,6 +24,8 @@ public abstract class BaseAgent extends Agent {
     @Getter
     protected NetworkElementConfiguration cfg = null;
     protected CommunicatorWith104Service communicatorWith104;
+    @Getter
+    protected ElementsTypes elementType;
 
     public BaseAgent() {
         this.communicatorWith104 = CommunicationWithContext.getBean(CommunicatorWith104Service.class).get();

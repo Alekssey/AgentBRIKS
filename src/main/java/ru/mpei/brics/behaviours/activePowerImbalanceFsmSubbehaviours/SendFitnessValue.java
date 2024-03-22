@@ -8,6 +8,8 @@ import ru.mpei.brics.agentDetector.UDPAgentDetector;
 import ru.mpei.brics.model.AgentsCommunicationProtocols;
 import ru.mpei.brics.model.NetworkElementConfiguration;
 
+import java.util.Random;
+
 @Slf4j
 public class SendFitnessValue extends OneShotBehaviour {
     private final NetworkElementConfiguration cfg;
@@ -21,7 +23,7 @@ public class SendFitnessValue extends OneShotBehaviour {
 
     @Override
     public void action() {
-        Double fitnessVal = this.cfg.getKnowledgeBaseCommunicator().getFitnessValue();
+        Double fitnessVal = this.cfg.getKnowledgeBaseCommunicator().getFitnessValue() + Math.random() * 0.0001;
         this.cfg.getAgentsQueue().put(fitnessVal, myAgent.getAID());
 
         if (!this.aDetector.getActiveAgents().isEmpty()) {

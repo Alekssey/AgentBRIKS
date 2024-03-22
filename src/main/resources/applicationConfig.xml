@@ -10,6 +10,7 @@
         <class>ru.mpei.brics.agent.NetworkElementAgent</class>
         <arg>station1Configuration.xml</arg>
         <arg>wesRules.drl</arg>
+        <arg>"SOURCE"</arg>
     </agentDescription>
 
     <agentDescription>
@@ -17,6 +18,7 @@
         <class>ru.mpei.brics.agent.NetworkElementAgent</class>
         <arg>station2Configuration.xml</arg>
         <arg>storageRules.drl</arg>
+        <arg>"SOURCE"</arg>
     </agentDescription>
 
     <agentDescription>
@@ -24,6 +26,15 @@
         <class>ru.mpei.brics.agent.NetworkElementAgent</class>
         <arg>dguConfiguration.xml</arg>
         <arg>dguRules.drl</arg>
+        <arg>"SOURCE"</arg>
+    </agentDescription>
+
+    <agentDescription>
+        <name>load</name>
+        <class>ru.mpei.brics.agent.NetworkElementAgent</class>
+        <arg>loadConfiguration.xml</arg>
+        <arg>loadRules.drl</arg>
+        <arg>"LOAD"</arg>
     </agentDescription>
 
 

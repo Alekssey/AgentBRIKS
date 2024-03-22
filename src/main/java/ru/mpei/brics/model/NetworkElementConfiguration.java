@@ -1,7 +1,9 @@
 package ru.mpei.brics.model;
 
+import jade.content.onto.annotations.Element;
 import jade.core.AID;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import ru.mpei.brics.services.MeasurementsUpdateService;
 import ru.mpei.brics.utils.CommunicationWithContext;
 import ru.mpei.brics.utils.knowledgeBase.DroolsCommunicator;
@@ -10,68 +12,73 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Data
+@Slf4j
 @XmlRootElement(name="cfg")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NetworkElementConfiguration {
 
-    private MeasurementsUpdateService service;
+    protected MeasurementsUpdateService service;
 
     /** agent detector parameters*/
     @XmlElement(name = "interface")
-    private String iFace;
+    protected String iFace;
     @XmlElement(name = "udpPeriod")
-    private int udpMonitoringPeriod;
+    protected int udpMonitoringPeriod;
     @XmlElement(name = "udpPort")
-    private int udpMonitoringPort;
+    protected int udpMonitoringPort;
 
     /** meta information */
+//    @XmlElement
+//    private ElementsTypes elementType;
     @XmlElement(name = "maxP")
-    private double maxP;
+    protected double maxP;
     @XmlElement(name = "minP")
-    private double minP;
+    protected double minP;
     @XmlElement(name = "currentP")
-    private double currentP;
+    protected double currentP;
     @XmlElement(name = "maxQ")
-    private double maxQ;
+    protected double maxQ;
     @XmlElement(name = "currentQ")
-    private double currentQ;
-    private double f = 50;
+    protected double currentQ;
+    protected double f = 50;
     @XmlElement
-    private long behavioursPeriod;
+    protected long behavioursPeriod;
 
     /** commands names */
     @XmlElement(name = "pMeasurementName")
-    private String pMeasurementName;
+    protected String pMeasurementName;
     @XmlElement(name = "pCommandName")
-    private String pCommandName;
+    protected String pCommandName;
     @XmlElement(name = "identifyingCommand")
-    private String identifyingCommand;
+    protected String identifyingCommand;
 
     /** regulator parameters*/
     @XmlElement(name = "kp")
-    private double kp;
+    protected double kp;
     @XmlElement(name = "ki")
-    private double ki;
+    protected double ki;
     @XmlElement(name = "targetFreq")
-    private double targetFreq;
+    protected double targetFreq;
     @XmlElement(name = "deltaFrequency")
-    private double deltaFreq;
+    protected double deltaFreq;
     @XmlElement
-    private long maxRegulationTime;
+    protected long maxRegulationTime;
 
     /** knowledge base components*/
-    private DroolsCommunicator knowledgeBaseCommunicator;
+    protected DroolsCommunicator knowledgeBaseCommunicator;
 
     /** active power regulation */
-    private Map<Double, AID> agentsQueue = new HashMap<>();
+    protected Map<Double, AID> agentsQueue = new HashMap<>();
 
     /** additional buffer variables */
-    private long regulationStartTime = 0;
+    protected long regulationStartTime = 0;
+
+    /** load additional fields*/
+    @XmlElement(name = "loadStep")
+    private List<Double> loadSteps;
 
     public NetworkElementConfiguration() {
         Optional<MeasurementsUpdateService> opService = CommunicationWithContext.getBean(MeasurementsUpdateService.class);
@@ -81,4 +88,11 @@ public class NetworkElementConfiguration {
         }
     }
 
+    public List<Double> getLoadSteps() {
+        if (this.loadSteps != null) {
+            return this.loadSteps;
+        } else {
+            return new ArrayList<>();
+        }
+    }
 }
