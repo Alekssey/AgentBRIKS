@@ -26,6 +26,7 @@ public class AnalyzeMeasurements extends TickerBehaviour {
                 || cfg.getF() <= cfg.getTargetFreq() - cfg.getDeltaFreq()) {
             this.stop();
         }
+        log.error("freq is ok");
     }
 
     @Override

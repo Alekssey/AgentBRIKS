@@ -79,6 +79,7 @@ public class NetworkElementConfiguration {
     /** load additional fields*/
     @XmlElement(name = "loadStep")
     private List<Double> loadSteps;
+    private int currentStep;
 
     public NetworkElementConfiguration() {
         Optional<MeasurementsUpdateService> opService = CommunicationWithContext.getBean(MeasurementsUpdateService.class);

@@ -46,7 +46,11 @@ public abstract class BaseAgent extends Agent {
     protected void requestInitialDataFromModel(NetworkElementConfiguration cfg) {
         try {
             Map<String, Double> measurement = this.communicatorWith104.getMeasurement(List.of(cfg.getPMeasurementName()));
-            if (measurement.containsKey(cfg.getPMeasurementName())) {
+            if (this.elementType.equals(ElementsTypes.LOAD) && measurement.containsKey(cfg.getPMeasurementName())) {
+                this.cfg.setCurrentStep(determinesStep(measurement.get(this.cfg.getPMeasurementName())));
+                this.cfg.setCurrentP(this.cfg.getMaxP() * this.cfg.getLoadSteps().get(this.cfg.getCurrentStep()) / 100.0);
+                log.error("Set load step {}", determinesStep(measurement.get(this.cfg.getPMeasurementName())));
+            } else if (this.elementType.equals(ElementsTypes.SOURCE) && measurement.containsKey(cfg.getPMeasurementName())) {
                 cfg.setCurrentP(measurement.get(cfg.getPMeasurementName()));
             }
         } catch (NumberFormatException e) {
@@ -62,6 +66,13 @@ public abstract class BaseAgent extends Agent {
 
     protected void identifyConnectingOfAgent(NetworkElementConfiguration cfg) {
         try {
+/*            if (this.elementType.equals(ElementsTypes.SOURCE)) {
+                this.communicatorWith104.sendCommand(cfg.getPCommandName(), cfg.getCurrentP());
+            } else if (this.elementType.equals(ElementsTypes.LOAD)) {
+                this.communicatorWith104.sendCommand(
+                        cfg.getPCommandName(),
+                        this.cfg.getMaxP() * this.cfg.getLoadSteps().get(this.cfg.getCurrentStep()) / 100.0);
+            }*/
             this.communicatorWith104.sendCommand(cfg.getPCommandName(), cfg.getCurrentP());
             this.communicatorWith104.sendCommand(cfg.getIdentifyingCommand(), 1.0);
         } catch (ResourceAccessException e) {
@@ -85,5 +96,22 @@ public abstract class BaseAgent extends Agent {
             this.aDetector.terminate();
             throw new RuntimeException(e);
         }
+    }
+
+    protected int determinesStep(double power) {
+        if (power < 0) {
+            log.error("Incorrect power");
+            return 0;
+        }
+
+        for (int i = 0 ; i < this.cfg.getLoadSteps().size() - 1; i++) {
+            double currentStepPower = this.cfg.getMaxP() * this.cfg.getLoadSteps().get(i) / 100.0;
+            double nextStepPower = this.cfg.getMaxP() * this.cfg.getLoadSteps().get(i + 1) / 100.0;
+            if (power >= currentStepPower && power <= nextStepPower) {
+                return (power - currentStepPower) < (nextStepPower - power) ? i : (i + 1);
+            }
+        }
+
+        return this.cfg.getLoadSteps().size() - 1;
     }
 }

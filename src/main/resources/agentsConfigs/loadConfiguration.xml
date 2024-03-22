@@ -7,10 +7,10 @@
 
     <!--    element information         -->
     <maxP>150</maxP>
-    <minP>0</minP>
-    <currentP>100</currentP>
+<!--    <minP>0</minP>-->
+<!--    <currentP>100</currentP>-->
     <maxQ>100</maxQ>
-    <currentQ>50</currentQ>
+<!--    <currentQ>50</currentQ>-->
     <behavioursPeriod>1000</behavioursPeriod>
 
     <!--  commands names  -->
@@ -25,11 +25,12 @@
     <deltaFrequency>0.01</deltaFrequency>
     <maxRegulationTime>30000</maxRegulationTime>
 
-    <!--  available load steps for regulating (%)   -->
-    <loadStep>100</loadStep>
-    <loadStep>75</loadStep>
-    <loadStep>50</loadStep>
-    <loadStep>25</loadStep>
+    <!--  available load steps for regulating from low to max!!! (%)   -->
     <loadStep>0</loadStep>
+    <loadStep>25</loadStep>
+    <loadStep>50</loadStep>
+    <loadStep>66.6666667</loadStep>
+    <loadStep>75</loadStep>
+    <loadStep>100</loadStep>
 
 </cfg>

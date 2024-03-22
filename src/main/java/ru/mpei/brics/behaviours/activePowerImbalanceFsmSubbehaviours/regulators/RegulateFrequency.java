@@ -19,14 +19,14 @@ import java.util.Optional;
 @Slf4j
 public class RegulateFrequency extends TickerBehaviour {
 
-    private final NetworkElementConfiguration cfg;
-    private final Regulator regulator;
-    private CommunicatorWith104Service communicatorWith104;
-    private final double[] previousFrequencyValues = new double[]{-1.0, -1.0, -1.0, -1.0};
-    private double powerBeforeRegulating;
-    private int behaviourResult;
-    private long startTime;
-    private int outOfRangeCommandsCounter = 0;
+    protected final NetworkElementConfiguration cfg;
+    protected final Regulator regulator;
+    protected CommunicatorWith104Service communicatorWith104;
+    protected final double[] previousFrequencyValues = new double[]{-1.0, -1.0, -1.0, -1.0};
+    protected double powerBeforeRegulating;
+    protected int behaviourResult;
+    protected long startTime;
+    protected int outOfRangeCommandsCounter = 0;
 
     public RegulateFrequency(NetworkElementAgent a, long period) {
         super(a, period);
@@ -100,7 +100,7 @@ public class RegulateFrequency extends TickerBehaviour {
         }
     }
 
-    private boolean checkRegulatingTime() {
+    protected boolean checkRegulatingTime() {
         return (System.currentTimeMillis() - this.startTime) <= this.cfg.getMaxRegulationTime();
     }
 
