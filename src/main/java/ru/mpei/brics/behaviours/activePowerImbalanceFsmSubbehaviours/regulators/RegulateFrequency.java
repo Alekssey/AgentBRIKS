@@ -23,10 +23,10 @@ public class RegulateFrequency extends TickerBehaviour {
     protected final Regulator regulator;
     protected CommunicatorWith104Service communicatorWith104;
     protected final double[] previousFrequencyValues = new double[]{-1.0, -1.0, -1.0, -1.0};
-    protected double powerBeforeRegulating;
+    private double powerBeforeRegulating;
     protected int behaviourResult;
     protected long startTime;
-    protected int outOfRangeCommandsCounter = 0;
+    private int outOfRangeCommandsCounter = 0;
 
     public RegulateFrequency(NetworkElementAgent a, long period) {
         super(a, period);
@@ -50,11 +50,13 @@ public class RegulateFrequency extends TickerBehaviour {
     public void onStart() {
         this.powerBeforeRegulating = this.cfg.getCurrentP();
         this.startTime = System.currentTimeMillis();
+        this.behaviourResult = 0;
         log.warn("Agent {} start regulation task", myAgent.getLocalName());
     }
 
     @Override
     protected void onTick() {
+        log.error("regulation time: {}", (System.currentTimeMillis() - this.startTime) / 1000.0);
         if(isAllSamplesInNormalRange()) {
             this.behaviourResult = 1;
             log.warn("all samples are in normal range");
@@ -71,12 +73,12 @@ public class RegulateFrequency extends TickerBehaviour {
             if(setpoint >= cfg.getMaxP()) {
                 log.warn(" Calculated setpoint value is greater than max_P");
                 setpoint = cfg.getMaxP();
-                this.behaviourResult = 2;
+//                this.behaviourResult = 2;
                 checkStop();
             } else if (setpoint <= cfg.getMinP()) {
                 log.warn("Calculated setpoint value is less than min_P");
                 setpoint = cfg.getMinP();
-                this.behaviourResult = 2;
+//                this.behaviourResult = 2;
                 checkStop();
             } else {
                 if (this.outOfRangeCommandsCounter != 0) this.outOfRangeCommandsCounter = 0;
@@ -104,7 +106,7 @@ public class RegulateFrequency extends TickerBehaviour {
         return (System.currentTimeMillis() - this.startTime) <= this.cfg.getMaxRegulationTime();
     }
 
-    private boolean checkFrequencyChanging() {
+    protected boolean checkFrequencyChanging() {
         for (int i = 0; i < previousFrequencyValues.length; i++) {
             if (cfg.getF() != previousFrequencyValues[i]) {
                 int j = 0;
@@ -129,7 +131,7 @@ public class RegulateFrequency extends TickerBehaviour {
         return true;
     }
 
-    private boolean sendCommandToModel(Double setpoint) {
+    protected boolean sendCommandToModel(Double setpoint) {
         try {
             this.communicatorWith104.sendCommand(this.cfg.getPCommandName(), setpoint);
             log.warn("send setpoint: {}", setpoint);
@@ -148,6 +150,8 @@ public class RegulateFrequency extends TickerBehaviour {
 
     private void checkStop() {
         if (this.outOfRangeCommandsCounter >= 3) {
+            this.behaviourResult = 2;
+            log.warn("Resource for regulation has been exhausted");
             this.stop();
         } else {
             this.outOfRangeCommandsCounter++;
@@ -156,6 +160,10 @@ public class RegulateFrequency extends TickerBehaviour {
 
     @Override
     public int onEnd() {
+//        this.be
+        log.error("onEnd method return {}", this.behaviourResult);
+        this.reset();
+//        this.behaviourResult = 0;
         return this.behaviourResult;
     }
 }

@@ -1,5 +1,5 @@
 package ru.mpei.brics.model;
 
 public enum TransferDutyStatus {
-    SUCCESS, FAIL, CONFIRM, REFUSE, BLOCK
+    SUCCESS, FAIL, CONFIRM, REFUSE, BLOCK, LOAD_SUCCESS
 }

@@ -43,6 +43,10 @@ public class WaitForNotification extends Behaviour {
                     this.behaviourResult = 2;
                     handleRequestMsg(request);
                     break;
+                case LOAD_SUCCESS:
+                    this.behaviourResult = 2;
+                    handleRequestMsg(request);
+                    break;
                 case BLOCK:
                     this.behaviourResult = 3;
                     break;
@@ -56,6 +60,7 @@ public class WaitForNotification extends Behaviour {
     @Override
     public int onEnd() {
         this.doneFlg = false;
+        log.error("onEnd method return {}", this.behaviourResult);
         return this.behaviourResult;
     }
 
@@ -65,10 +70,16 @@ public class WaitForNotification extends Behaviour {
     }
 
     private void handleRequestMsg(ACLMessage request) {
+        log.error("1");
         ACLMessage response = request.createReply();
+        log.error("2");
         response.setPerformative(ACLMessage.INFORM);
+        log.error("3");
         response.setProtocol(AgentsCommunicationProtocols.NOTIFICATIONS.getValue());
+        log.error("4");
         response.setContent(JacksonHelper.toJackson(TransferDutyStatus.CONFIRM));
+        log.error("5");
         myAgent.send(response);
+        log.error("Agent {} send response {}", myAgent.getLocalName(), response.getContent());
     }
 }

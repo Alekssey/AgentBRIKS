@@ -1,10 +1,11 @@
-package ru.mpei.brics.behaviours.activePowerImbalanceFsmSubbehaviours;
+package ru.mpei.brics.behaviours.activePowerImbalanceFsmSubbehaviours.regulators;
 
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 import jade.proto.AchieveREInitiator;
 import lombok.extern.slf4j.Slf4j;
 import ru.mpei.brics.agent.NetworkElementAgent;
+import ru.mpei.brics.behaviours.activePowerImbalanceFsmSubbehaviours.SendFailMsg;
 import ru.mpei.brics.model.AgentsCommunicationProtocols;
 import ru.mpei.brics.model.NetworkElementConfiguration;
 import ru.mpei.brics.model.TransferDutyStatus;
@@ -17,46 +18,42 @@ import java.util.Vector;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class SendFailMsg extends AchieveREInitiator {
-    protected NetworkElementConfiguration cfg;
-    protected AID receiverAgent = null;
-    protected int behaviourResult;
+public class LoadSendSuccessMsg extends AchieveREInitiator {
+    private final NetworkElementConfiguration cfg;
+    private AID receiverAgent;
+    private int behaviourResult;
 
-    public SendFailMsg(NetworkElementAgent a, ACLMessage msg) {
+    public LoadSendSuccessMsg(NetworkElementAgent a, ACLMessage msg) {
         super(a, msg);
         this.cfg = a.getCfg();
     }
 
     @Override
     public void onStart() {
-        this.receiverAgent = initializeReceiver();
-        super.onStart();
-    }
+        double bestFitness = this.cfg.getAgentsQueue().keySet().stream().max(new Comparator<Double>() {
+            @Override
+            public int compare(Double o1, Double o2) {
+                if (o1 > o2) return 1;
+                else if (o1 < o2) return -1;
+                return 0;
+            }
+        }).get();
 
-    protected AID initializeReceiver() {
-        AID aid = this.receiverAgent = findNexInQueue(myAgent.getAID());
-        if (aid == null) {
-            this.behaviourResult = 2;
-        }
-        return aid;
+        this.receiverAgent = this.cfg.getAgentsQueue().get(bestFitness);
+        log.error("Receiver agent: {}", this.receiverAgent.getLocalName());
+        super.onStart();
     }
 
     @Override
     protected Vector prepareRequests(ACLMessage request) {
         if (this.receiverAgent == null) return super.prepareRequests(request);
-        if (request == null) request = new ACLMessage(ACLMessage.REQUEST);
-//        request.setPerformative(ACLMessage.REQUEST);
+        request.setPerformative(ACLMessage.REQUEST);
         request.setProtocol(AgentsCommunicationProtocols.NOTIFICATIONS.getValue());
         request.addReceiver(this.receiverAgent);
-        ACLMessage setupRequest = setContentToMessage(request);
+        request.setContent(JacksonHelper.toJackson(TransferDutyStatus.LOAD_SUCCESS));
         request.setReplyByDate(new Date(System.currentTimeMillis() + 1000));
-        log.warn("Agent {} send FAIL message to {}", myAgent.getLocalName(), this.receiverAgent.getLocalName());
-        return super.prepareRequests(setupRequest);
-    }
-
-    protected ACLMessage setContentToMessage(ACLMessage request) {
-        request.setContent(JacksonHelper.toJackson(TransferDutyStatus.FAIL));
-        return request;
+        log.warn("Agent {} send LOAD_SUCCESS message to {}", myAgent.getLocalName(), this.receiverAgent.getLocalName());
+        return super.prepareRequests(request);
     }
 
     @Override
@@ -75,7 +72,6 @@ public class SendFailMsg extends AchieveREInitiator {
 
     @Override
     public int onEnd() {
-        this.reset();
         return this.behaviourResult;
     }
 
@@ -97,5 +93,4 @@ public class SendFailMsg extends AchieveREInitiator {
         }
         return null;
     }
-
 }

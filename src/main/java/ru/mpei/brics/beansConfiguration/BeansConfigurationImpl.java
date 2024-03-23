@@ -1,26 +1,27 @@
 package ru.mpei.brics.beansConfiguration;
 
+import org.springframework.beans.factory.annotation.Value;
 import ru.mpei.brics.agent.AgentsFabric;
 import ru.mpei.brics.model.ApplicationConfiguration;
 import jade.core.ProfileImpl;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.ControllerException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.mpei.brics.utils.CommunicatorWith104Service;
 import ru.mpei.brics.utils.XmlSerialization;
 
 @Slf4j
-@Configuration("agentConfiguration")
+@Configuration()
 public class BeansConfigurationImpl {
-    @Value("${service.configuration.file.path}")
+    @Value("${spring.service.configuration.file.path}")
     private String configFilePath;
+
 
     @Bean
     public ApplicationConfiguration containerCfg() {
-        return XmlSerialization.unMarshalAny(ApplicationConfiguration.class, configFilePath);
+        return XmlSerialization.unMarshalAny(ApplicationConfiguration.class, "src/main/resources/applicationConfig.xml");
     }
 
     @Bean

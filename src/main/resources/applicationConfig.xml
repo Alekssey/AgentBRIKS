@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <agentDescriptions>
-    <ip104Service>10.8.8.197</ip104Service>
+    <ip104Service>10.8.8.136</ip104Service>
     <port104Service>9001</port104Service>
     <updateMeasurementPeriod>1000</updateMeasurementPeriod>
 
