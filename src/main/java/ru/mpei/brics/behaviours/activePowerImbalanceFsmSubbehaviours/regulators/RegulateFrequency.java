@@ -121,7 +121,7 @@ public class RegulateFrequency extends TickerBehaviour {
         return false;
     }
 
-    private boolean isAllSamplesInNormalRange() {
+    protected boolean isAllSamplesInNormalRange() {
         for (double f : previousFrequencyValues) {
             if (f < cfg.getTargetFreq() - cfg.getDeltaFreq()
                     || f > cfg.getTargetFreq() + cfg.getDeltaFreq()) {

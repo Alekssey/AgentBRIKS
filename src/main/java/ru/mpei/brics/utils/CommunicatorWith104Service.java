@@ -45,7 +45,7 @@ public class CommunicatorWith104Service {
         return measurements;
     }
 
-    public synchronized void sendCommand(String tag, double value) throws ResourceAccessException, ConnectException, HttpServerErrorException {
+    public  void sendCommand(String tag, double value) throws ResourceAccessException, ConnectException, HttpServerErrorException {
         CommandTO body = new CommandTO(tag, Double.toString(value));
         ResponseEntity response = sendPostRequest(this.sendUrl, JacksonHelper.toJackson(body));
     }

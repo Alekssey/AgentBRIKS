@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import ru.mpei.brics.agent.NetworkElementAgent;
 import ru.mpei.brics.behaviours.activePowerImbalanceFsmSubbehaviours.*;
 import ru.mpei.brics.behaviours.activePowerImbalanceFsmSubbehaviours.regulators.LoadRegulator;
-import ru.mpei.brics.behaviours.activePowerImbalanceFsmSubbehaviours.regulators.LoadSendSuccessMsg;
 import ru.mpei.brics.behaviours.activePowerImbalanceFsmSubbehaviours.regulators.LoadSendSuccessMsgV2;
 import ru.mpei.brics.behaviours.activePowerImbalanceFsmSubbehaviours.regulators.RegulateFrequency;
 import ru.mpei.brics.model.ElementsTypes;

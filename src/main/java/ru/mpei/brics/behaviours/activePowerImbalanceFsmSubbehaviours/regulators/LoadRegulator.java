@@ -22,12 +22,12 @@ public class LoadRegulator extends RegulateFrequency {
 
     @Override
     protected void onTick() {
-//        log.error("try do exequte onTick method");
-//        if(isAllSamplesInNormalRange()) {
-//            this.behaviourResult = 1;
-//            log.warn("all samples are in normal range");
-//            this.stop();
-//        }
+        log.error("try do exequte onTick method");
+        if(isAllSamplesInNormalRange()) {
+            this.behaviourResult = 1;
+            log.warn("all samples are in normal range");
+            this.stop();
+        }
         if (crossSetpoint()) {
             this.behaviourResult = 1;
             log.warn("Load changing enough");
